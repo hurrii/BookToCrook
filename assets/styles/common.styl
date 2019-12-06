@@ -2,6 +2,7 @@ html
   font-size 10px
   font-family $fontS, sans-serif
   height 100%
+  line-height 1.5
 
 body
   font-size 1.6rem
@@ -90,14 +91,14 @@ a
   text-decoration none
   transition opacity .2s ease
 
-.container
+.cont
   width $containerWidthDesktop
   margin 0 auto
   height inherit
 
   @media $mobile-tablet
     width 100%
-    padding 0 3.5rem
-
-  @media $mobile
-    padding 0 2rem
+    padding 2rem
+  
+  @media $desktop
+    padding 0 4rem

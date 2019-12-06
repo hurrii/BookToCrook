@@ -40,13 +40,15 @@ module.exports = {
   /*
   ** Nuxt.js dev-modules
   */
+  buildModules: [
+    '@nuxtjs/vuetify'
+  ],
   /*
   ** Nuxt.js modules
   */
   modules: [
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/style-resources'
   ],
   /*
   ** Build configuration
