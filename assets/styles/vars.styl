@@ -1,0 +1,128 @@
+/// *** colors *** ///
+$white = #ffffff
+$black = #000
+$powder = rgba(255, 255, 250, 1);
+$metal = rgba(41, 47, 54, 1);
+$green = rgba(12, 124, 89, 1);
+$blue = rgba(19, 64, 116, 1);
+
+$fontS = 'SourceSansPro'  // используется в миксине font по умолчанию
+
+$light = 300
+$regular = 400
+$medium = 500
+
+$mobile = 'screen and (max-width: 767px)';
+$tablet = 'screen and (min-width: 768px) and (max-width: 1023px)';
+$mobile-tablet = 'screen and (max-width: 1023px)';
+$tablet-desktop = 'screen and (min-width: 768px)';
+$desktop = 'screen and (min-width: 1024px)';
+
+
+$headerHeightDesktop = 8rem
+$headerHeightTablet = 8rem
+$headerHeightMobile = 6rem
+
+$containerWidthDesktop = 116rem
+$containerWidthTablet = 65rem
+$containerWidthMobile = 27.5rem
+
+$sectionOffsetVertical = 6rem
+$sectionOffsetHorizontal = 2rem
+$sectionOffsetVerticalTablet = 4rem
+$sectionOffsetHorizontalTablet = 2rem
+$sectionOffsetVerticalMobile = 2rem
+$sectionOffsetHorizontalMobile = 2rem
+
+$desktopOffset = 'calc((100vw - %s) / 2 )' % $containerWidthDesktop
+$mobileOffset = 3rem
+
+
+/// *** grid *** ///
+$colCount = 12
+$colGapDesktop = 4rem
+$colGapTablet = 2rem
+
+$colSize = 6rem
+
+$colSizeTablet = 3.5rem
+
+$zLayerHide = -1; // скрытый блок
+$zLayerBack = 0; // Видео и бекграунд
+$zLayerContent = 1; // Контент
+$zLayerDecor1 = 2; // Декор разный
+$zLayerDecor2 = 3; // Про запас
+$zLayerDecor3 = 4; // Про запас
+$zLayerNav = 5; // Навигация/ссылки
+$zLayerOverlay = 6; // Попапы и тп
+$zLayerPopups = 7; // Попапы и тп
+$zLayerSticky = 9;
+$zLayerTop = 10; // меню
+$zLayerBurger = 11; // Бургер (топовый/верхний слой)
+$zLayerMenuOpened = 120; // открытое меню
+$zLayerMenuOpenedBurgerBtn = 121; // Кнопка бургера
+$zLayerMenuOpenedBurgerBtn2 = 122; // Кнопка бургера
+
+
+
+.list-fade-enter-active,
+.list-fade-leave-active
+  transition opacity .3s ease, transform .3s ease
+.list-fade-enter,
+.list-fade-leave-to
+  opacity 0
+  transform translateY(1rem)
+  transition none
+
+.fade-enter-active,
+.fade-leave-active
+  transition opacity .2s ease
+.fade-enter,
+.fade-leave-to
+  opacity 0
+  transition none
+
+
+
+.fade-long-enter-active,
+.fade-long-leave-active
+  transition: opacity 1s ease
+.fade-long-enter,
+.fade-long-leave-to
+  opacity 0
+  transition: opacity 1s ease
+
+
+.list-fade-horizontal-enter-active,
+.list-fade-horizontal-leave-active
+  transition opacity .5s ease, transform .5s ease
+.list-fade-horizontal-enter,
+.list-fade-horizontal-leave-to
+  opacity 0
+  transform translateX(5rem)
+  transition none
+
+
+.popup-enter-active
+  transition opacity .4s ease
+
+.popup-leave-active
+  transition opacity 1s cubic-bezier(1, 0.5, 3.8, 1) .1s
+  opacity 1
+
+.popup-enter, .popup-leave-to
+  transition all .4s cubic-bezier(1, 0.5, 0.8, 4) .1s
+  opacity 0
+
+
+.fade-enter-active
+  transition opacity .3s ease .1s
+
+.fade-leave-active
+  transition opacity .2s cubic-bezier(1.0, 0.5, 0.8, 1.0) .05s
+  opacity 0
+
+.fade-enter,
+.fade-leave-to
+  transition none
+  opacity 0

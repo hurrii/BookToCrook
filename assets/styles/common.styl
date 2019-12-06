@@ -1,0 +1,103 @@
+html
+  font-size 10px
+  font-family $fontS, sans-serif
+  height 100%
+
+body
+  font-size 1.6rem
+  font-weight normal
+  text-rendering optimizeLegibility
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  font-smoothing antialiased
+  background $powder
+  color $metal
+  height 100%
+
+#__nuxt
+  height 100%
+#__layout
+  height 100%
+
+*
+  -webkit-tap-highlight-color transparent
+  -moz-tap-highlight-color transparent
+  box-sizing border-box
+
+.page-enter
+  opacity 0
+  transition none
+.page-leave-to
+  opacity 0
+
+.page-enter-to
+  transition: opacity .9s cubic-bezier(.73,.45,.44,.82) .5s
+  opacity 1
+
+.page-enter-active,
+.page-leave-active
+  overflow hidden
+  transition: opacity .7s cubic-bezier(.73,.45,.44,.82)
+
+svg
+  width 100%
+  height 100%
+
+
+@media screen and (max-width: 767px)
+  html
+    font-size calc(10px + 12 * (100vw - 375px) / 392)
+
+@media screen and (min-width: 768px) and (max-width: 1023px)
+  html
+    font-size calc(10px + 4 * (100vw - 768px) / 255)
+
+@media screen and (min-width: 1024px) and (max-width: 1439px)
+  html
+    font-size calc(7.5px + 3 * (100vw - 1024px) / 415)
+
+@media screen and (min-width: 1440px) and (max-width: 1920px)
+  html
+    font-size calc(10.5px + .5 * (100vw - 1440px) / 480)
+
+@media screen and (min-width: 1920px)
+  html
+    font-size calc(12.5px + 1 * (100vw - 1440px) / 320)
+
+
+_:default:not(:root:root),
+html
+  animation webkitfix 1s forwards infinite
+
+@keyframes webkitfix
+  100%
+    z-index: auto
+    
+@-webkit-keyframes webkitfix
+  100%
+    z-index: auto
+
+main
+  height 100%
+
+.page
+  display flex
+  flex-direction column
+  flex 1
+  min-height 100%
+
+a
+  text-decoration none
+  transition opacity .2s ease
+
+.container
+  width $containerWidthDesktop
+  margin 0 auto
+  height inherit
+
+  @media $mobile-tablet
+    width 100%
+    padding 0 3.5rem
+
+  @media $mobile
+    padding 0 2rem
