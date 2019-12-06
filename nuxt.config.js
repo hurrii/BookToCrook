@@ -28,6 +28,11 @@ module.exports = {
   css: [
     '~assets/styles/styles.styl'
   ],
+  styleResources: {
+    stylus: [
+      '~assets/styles/vars.styl'
+    ]
+  },
   /*
   ** Plugins to load before mounting the App
   */
@@ -35,15 +40,13 @@ module.exports = {
   /*
   ** Nuxt.js dev-modules
   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
-  ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/style-resources',
+    '@nuxtjs/vuetify'
   ],
   /*
   ** Build configuration
