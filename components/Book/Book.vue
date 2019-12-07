@@ -76,8 +76,8 @@ export default {
         padding 2rem
 
         .cover
-            width 12rem
-            height 20rem
+            width 10rem
+            height 18rem
             img
                 display block
                 width 100%
@@ -93,6 +93,8 @@ export default {
 
         .pages
         .author
+            font-size 1.4rem
+            font-weight 2.4rem
             margin-top .5rem
 
     .pagination
@@ -110,6 +112,7 @@ export default {
             text-transform uppercase
             &:hover
                 background $green
+                cursor pointer
                 color white
 
 </style>
