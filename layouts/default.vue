@@ -1,5 +1,5 @@
 <template lang='pug'>
-  div
+  .page
     Header
     nuxt
 </template>
