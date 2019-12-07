@@ -14,7 +14,10 @@ module.exports = {
   // add your custom rules here
   rules: {
     'nuxt/no-cjs-in-config': 'off',
-    "indent": "off",
-    'space-before-function-paren': "off"
+    'indent': "off",
+    'space-before-function-paren': "off",
+    'no-console': 'off',
+    'object-shorthand': 'off',
+    'semi': 'off'
   }
 }

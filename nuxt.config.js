@@ -46,7 +46,8 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/eslint-module',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/axios'
   ],
   /*
   ** Build configuration
