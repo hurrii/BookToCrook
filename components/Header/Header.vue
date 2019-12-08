@@ -1,7 +1,7 @@
 <template lang="pug">
   header.header
     .container.align
-      .logo BookToCrook
+      nuxt-link(to='/').logo BookToCrook
 </template>
 <style lang="stylus" scoped>
   .header

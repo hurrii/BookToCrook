@@ -1,9 +1,9 @@
 <template lang="pug">
-    .row
+    .row.books
         .col-3.book(v-for="book in this.pageData" :key="book.id")
-            .cover(v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'")
+            nuxt-link(:to="{ path: '/book/' + book.id }"  v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
                 img(:src="image")
-            .h2.title {{ book.volumeInfo.title }}
+            nuxt-link(:to="{ path: '/book/' + book.id }").h2.title {{ book.volumeInfo.title }}
             .author
                 div(v-for="author in book.volumeInfo.authors") {{ author }}
             .pages(v-if="book.volumeInfo.pageCount") {{ book.volumeInfo.pageCount }} стр.
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-// https://www.googleapis.com/books/v1/volumes?q=fiction&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0
 export default {
     props: {
         data: {
@@ -28,7 +27,8 @@ export default {
     data: () => ({
         items: [],
         books: {},
-        pageNumber: 0
+        pageNumber: 0,
+        console: console
     }),
     computed: {
         pageAmount() {
@@ -55,7 +55,9 @@ export default {
         }
     },
     mounted() {
-        this.getData()
+        this.getData().then(() => {
+            document.querySelector('.books').classList.add('loaded')
+        })
     },
     methods: {
         prevPage() {
@@ -73,30 +75,49 @@ export default {
         },
         async getData() {
             this.books = await this.fetchBooks()
-            return this.books
+            return new Promise((resolve) => {
+                resolve()
+                return this.books
+            })
         }
     }
 }
 </script>
 
 <style lang="stylus" scoped>
+    .row
+        height 100%
+
+    .books
+        &:not(.loaded)
+            margin-top -2rem
+            background url('~assets/img/preloader.svg') no-repeat center
     .book
         display flex
         flex-flow column wrap
         padding 2rem
+        color $metal
 
         .cover
             width 10rem
             height 18rem
+            transition transform 12s
+            &:hover
+                transform scale(1.2)
             img
                 display block
                 width 100%
                 height auto
+                &:hover
+                    box-shadow 0 0 10px 4px rgba(#000, 0.2)
 
         .title
             margin-top 1rem
             font-size 1.8rem
             font-weight bold
+            color $metal
+            &:hover
+                color $green
 
         .pages
             font-size 1.2rem
@@ -110,6 +131,7 @@ export default {
     .pagination
         display flex
         justify-content center
+        margin-top auto
 
         button
             width 8rem

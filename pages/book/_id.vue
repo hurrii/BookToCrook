@@ -1,16 +1,17 @@
 <template lang='pug'>
   Main
-    Book
+    div 123
 </template>
 
 <script>
 import Main from '~/components/Main/Main.vue'
-import Book from '~/components/Book/Book.vue'
 
 export default {
   components: {
-    Main,
-    Book
+    Main
+  },
+  mounted() {
+    console.log(this);
   }
 }
 </script>
