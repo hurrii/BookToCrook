@@ -1,12 +1,11 @@
 <template lang="pug">
     .row.books
         .col-3.book(v-for="book in this.pageData" :key="book.id")
-            nuxt-link(:to="{ path: '/book/' + book.id }"  v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
+            nuxt-link(:to="{ path: '/book/' + book.id, params: { book } , query: { book } }"  v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
                 img(:src="image")
-            nuxt-link(:to="{ path: '/book/' + book.id }").h2.title {{ book.volumeInfo.title }}
+            nuxt-link(:to="{ path: '/book/' + book.id, query: { book } }").h2.title {{ book.volumeInfo.title }}
             .author
                 div(v-for="author in book.volumeInfo.authors") {{ author }}
-            .pages(v-if="book.volumeInfo.pageCount") {{ book.volumeInfo.pageCount }} стр.
         .col-12.pagination
             button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
             button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
@@ -119,10 +118,6 @@ export default {
             &:hover
                 color $green
 
-        .pages
-            font-size 1.2rem
-
-        .pages
         .author
             font-size 1.4rem
             font-weight 2.4rem

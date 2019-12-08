@@ -1,17 +1,16 @@
 <template lang='pug'>
   Main
-    div 123
+    Item
 </template>
 
 <script>
 import Main from '~/components/Main/Main.vue'
+import Item from '~/components/Item/Item.vue'
 
 export default {
   components: {
-    Main
-  },
-  mounted() {
-    console.log(this);
+    Main,
+    Item
   }
 }
 </script>
