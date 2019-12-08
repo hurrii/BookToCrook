@@ -1,6 +1,6 @@
 <template lang="pug">
     .row
-        .col-3.book(v-for="book in this.books.items" :key="book.id")
+        .col-3.book(v-for="book in this.pageData" :key="book.id")
             .cover(v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'")
                 img(:src="image")
             .h2.title {{ book.volumeInfo.title }}
@@ -32,16 +32,26 @@ export default {
     }),
     computed: {
         pageAmount() {
-            const l = this.books.length
-            const p = this.pageLimit
+            let result = 0
+            if (this.books.items) {
+                const l = this.books.items.length
+                const p = this.pageLimit
 
-            return Math.ceil(l / p)
+                result = l / p
+            }
+                return Math.ceil(result)
         },
         pageData() {
-            const start = this.pageNumber * this.pageLimit
-            const end = start + this.pageLimit
+            let result = {}
+            if (this.books.items) {
+                const start = this.pageNumber * this.pageLimit
+                const end = start + this.pageLimit
 
-            return Array.from(this.books).slice(start, end)
+                const data = Array.from(this.books.items).slice(start, end)
+                result = { ...data }
+            }
+
+            return result
         }
     },
     mounted() {
