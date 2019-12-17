@@ -1,0 +1,192 @@
+mixinGrid()
+
+  $cols = $colCount
+
+  $sizeDesktop = 2rem
+  $sizeTablet = 1rem
+
+  .row
+    display flex
+    flex-wrap wrap
+
+    >.col
+      flex-grow 1
+      flex-basis 0
+      max-width 100%
+
+      &.no-grow
+        flex-grow 0
+
+    for $colNum in (1..$cols)
+      .col-{$colNum}
+        position relative
+        min-height 1px
+        width 100%
+        // padding 0 $colSize
+        // height 5rem
+
+
+    .col-auto
+      -ms-flex 0 0 auto
+      flex 0 0 auto
+      width auto
+      max-width none
+      padding-left $colSize
+      padding-right $colSize
+
+  .ai-c
+    align-items center
+  .ai-s
+    align-items stretch
+  .ai-b
+    align-items baseline
+  .ai-fs
+    align-items flex-start
+  .ai-fe
+    align-items flex-end
+  .jc-sb
+    justify-content space-between
+  .jc-c
+    justify-content center
+  .jc-fe
+    justify-content flex-end
+
+    //- you can add smth special ;)
+
+
+  .container
+    &--footer
+      display flex
+      justify-content space-between
+      flex-flow row wrap
+
+    &&--full
+      width auto
+
+
+  @media $desktop
+    .row
+      margin 0 0 - $sizeDesktop
+      &.no-gut
+        margin 0
+      for $colNum in (1..$cols)
+        .col-{$colNum}
+          flex 0 0 (100% * $colNum / $cols)
+          max-width (100% * $colNum / $cols)
+          padding 0 $sizeDesktop
+
+          .no-gut&
+            padding 0
+
+    section.section
+      > .container
+        width $containerWidthDesktop
+        padding $sectionOffsetVertical 0
+        margin 0 auto
+
+    .container
+      &--grid
+        padding 0 $colSize
+
+      &--full
+        padding 16rem 0
+
+      &--wideGap
+        padding 0
+        padding-left $leftOffset
+        padding-right $leftOffset
+
+      &--full_height
+        padding-top $headerHeightDesktop
+        display flex
+        flex-flow column nowrap
+        justify-content center
+        // height 100%
+
+      &--sm
+        width $containerWidthDesktopSm
+        margin 0 auto
+
+
+      &--pt
+        padding-top 6rem
+
+
+
+  @media $tablet
+    .col-auto
+      padding 0 $colSize
+
+    .row
+      margin 0 0 - ($sectionOffsetHorizontalTablet - 1)
+      &.no-gut
+        margin 0
+
+      for $colNum in (1..$cols)
+
+        .col-{$colNum}
+          padding 0 $sectionOffsetHorizontalTablet - 1
+          .no-gut &
+            padding 0
+
+        .col-t-{$colNum}
+          flex 0 0 (100% * $colNum / $cols)
+          max-width (100% * $colNum / $cols)
+          padding 0 $sizeTablet
+          .no-gut &
+            padding 0
+
+
+    .container
+
+      &&--full_width
+        padding-right 0
+        padding-left 0
+
+  @media $mobile
+    .col-auto
+      // padding 0 $colSize
+
+    .row
+      margin 0
+
+      for $colNum in (1..$cols)
+        .col-m-{$colNum}
+          flex 0 0 100%
+          max-width 100%
+          // padding 0 $colSize
+
+        .col-m-{$colNum}
+          flex 0 0 (100% * $colNum / $cols)
+          max-width (100% * $colNum / $cols)
+          // padding 0 $sectionOffsetHorizontal
+          .no-gut &
+            padding 0
+
+        .col-m-0
+          flex 0 0 0
+          max-width 0
+
+    .container
+
+      &&--full_width
+        padding-right 0
+        padding-left 0
+
+
+mixinGrid()
+
+/* for custom needs
+.col-m-12 100%
+.col-10 83.333333%
+.col-9 75%
+.col-8 66.666667%
+.col-7 58.333333%
+.col-6 50%
+.col-5 41.666667%
+.col-4 33.333333%
+.col-3 25%
+.col-2 16.666667%
+.col-1 8.3333333%
+
+*/
