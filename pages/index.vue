@@ -1,16 +1,16 @@
 <template lang='pug'>
   Main
-    Book
+    Books
 </template>
 
 <script>
 import Main from '~/components/Main/Main.vue'
-import Book from '~/components/Book/Book.vue'
+import Books from '~/components/Books/Books.vue'
 
 export default {
   components: {
     Main,
-    Book
+    Books
   }
 }
 </script>

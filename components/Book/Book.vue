@@ -1,145 +1,95 @@
 <template lang="pug">
-    .row.books
-        .col-3.book(v-for="book in this.pageData" :key="book.id")
-            nuxt-link(:to="{ path: '/book/' + book.id, params: { book } , query: { book } }"  v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-                img(:src="image")
-            nuxt-link(:to="{ path: '/book/' + book.id, query: { book } }").h2.title {{ book.volumeInfo.title }}
-            .author
-                div(v-for="author in book.volumeInfo.authors") {{ author }}
-        .col-12.pagination
-            button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
-            button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
+  .book
+    .row
+      .col-3
+        .image
+          img(:src='bookData.imageLinks.thumbnail')
+        .lang.heading Язык:&nbsp;
+          span.normal {{ bookData.language }}
+        .page-count.heading Количество страниц:&nbsp;
+          span.normal {{ bookData.pageCount }}
+
+      .col-9
+        .info
+          h1.title {{ bookData.title }}
+          h2.authors(v-html='bookData.authors.join(", ")')
+          .publisher.heading Издательство:&nbsp;
+            span.normal {{  bookData.publisher }}
+          .about.heading(v-if='bookData.description') О книге
+            .normal {{ bookData.description }}
+    //- .row
+    //-   .col-3
+    //-   .col-9
+    //-     .asdas {{ bookData }}
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-    props: {
-        data: {
-            type: Object,
-            default: () => {}
-        },
-        pageLimit: {
-            type: Number,
-            default: 8
-        }
-    },
-    data: () => ({
-        items: [],
-        books: {},
-        pageNumber: 0,
-        console: console
-    }),
-    computed: {
-        pageAmount() {
-            let result = 0
-            if (this.books.items) {
-                const l = this.books.items.length
-                const p = this.pageLimit
-
-                result = l / p
-            }
-                return Math.ceil(result)
-        },
-        pageData() {
-            let result = {}
-            if (this.books.items) {
-                const start = this.pageNumber * this.pageLimit
-                const end = start + this.pageLimit
-
-                const data = Array.from(this.books.items).slice(start, end)
-                result = { ...data }
-            }
-
-            return result
-        }
-    },
-    mounted() {
-        this.getData().then(() => {
-            document.querySelector('.books').classList.add('loaded')
-        })
-    },
-    methods: {
-        prevPage() {
-            this.pageNumber--
-        },
-        nextPage() {
-            this.pageNumber++
-        },
-        fetchBooks() {
-            const path = 'https://www.googleapis.com/books/v1/volumes?q=fiction&maxResults=40&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
-
-            return this.$axios.$get(path).then((response) => {
-                return response
-            });
-        },
-        async getData() {
-            this.books = await this.fetchBooks()
-            return new Promise((resolve) => {
-                resolve()
-                return this.books
-            })
-        }
+  data: () => {
+    return {
+      bookDataPlaceholder: {
+        title: '',
+        authors: [],
+        imageLinks: [],
+        publisher: '',
+        description: ''
+      }
     }
+  },
+  computed: {
+    ...mapState([
+      'pageData'
+    ]),
+    bookData() {
+      if (this.pageData.items) {
+        return this.pageData.items.filter(book => book.id === this.$route.params.id)[0].volumeInfo
+      }
+      return this.bookDataPlaceholder;
+    }
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
-    .row
-        height 100%
+  .title
+    color $green
+    line-height 1.15
 
-    .books
-        &:not(.loaded)
-            margin-top -2rem
-            background url('~assets/img/preloader.svg') no-repeat center
-    .book
-        display flex
-        flex-flow column wrap
-        padding 2rem
-        color $metal
+  .authors
+    margin-top .5rem
 
-        .cover
-            width 10rem
-            height 18rem
-            transition transform 12s
-            &:hover
-                transform scale(1.2)
-            img
-                display block
-                width 100%
-                height auto
-                &:hover
-                    box-shadow 0 0 10px 4px rgba(#000, 0.2)
+  .lang
+  .page-count
+  .publisher
+  .about
+    margin-top 1rem
 
-        .title
-            margin-top 1rem
-            font-size 1.8rem
-            font-weight bold
-            color $metal
-            &:hover
-                color $green
+  .image
+    display: flex;
+    border-radius: 9px;
+    overflow: hidden;
+    padding-top 1rem
+    padding-left 1rem
+    background $metal
 
-        .author
-            font-size 1.4rem
-            font-weight 2.4rem
-            margin-top .5rem
+    img
+      width 25rem
+      height auto
 
-    .pagination
-        display flex
-        justify-content center
-        margin-top auto
+  .heading
+    font-size 1.8rem
+    font-weight bold
 
-        button
-            width 8rem
-            height 3rem
-            margin 0 .5rem
-            font-size 1.4rem
-            border 2px solid $green
-            border-radius $radius
-            transition background .2s ease, color .2s ease
-            text-transform uppercase
-            &:hover
-                background $green
-                cursor pointer
-                color white
+  .normal
+    font-size 1.5rem
+    font-weight 400
+
+  .about
+    .normal
+      font-size 1.6rem
+      line-height 2.6rem
+      margin-top .5rem
 
 </style>
