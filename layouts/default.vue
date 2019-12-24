@@ -26,8 +26,9 @@ export default {
   mounted() {
     this.getData().then(() => {
       this.loadPageData(this.books);
-    })
       document.querySelector('.page .preloader').classList.add('loaded');
+      document.querySelector('.page').classList.add('loaded');
+    })
   },
   methods: {
     ...mapMutations([

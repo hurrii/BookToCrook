@@ -53,6 +53,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .page
+    .book
+      opacity 0
+      transition opacity .3s ease 1.3s
+  .loaded
+    .book
+      opacity 1
+
   .title
     color $green
     line-height 1.15
