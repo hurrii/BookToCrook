@@ -115,27 +115,41 @@ button
   appearance none
   -webkit-appearance: none;
 
-  p
-    margin 0
+input
+  outline 0
 
-  ul
-    margin 0
-    padding 0
-    list-style none
+p
+  margin 0
 
-  li
-    display block
+ul
+  margin 0
+  padding 0
+  list-style none
 
-  svg
-    display block
-    width 100%
-    height 100%
+li
+  display block
 
-  i
-    display block
+svg
+  display block
+  width 100%
+  height 100%
 
-  
-  .visually-hidden
+i
+  display block
+
+
+.visually-hidden
+  position absolute!important
+  overflow hidden!important
+  clip rect(0 0 0 0)
+  height 1px!important
+  width 1px!important
+  margin -1px!important
+  padding 0!important
+  border 0!important
+
+.visually-hidden--desktop
+  @media $desktop
     position absolute!important
     overflow hidden!important
     clip rect(0 0 0 0)
@@ -144,35 +158,24 @@ button
     margin -1px!important
     padding 0!important
     border 0!important
-
-  .visually-hidden--desktop
-    @media $desktop
-      position absolute!important
-      overflow hidden!important
-      clip rect(0 0 0 0)
-      height 1px!important
-      width 1px!important
-      margin -1px!important
-      padding 0!important
-      border 0!important
-  .visually-hidden--tablet
-    @media $tablet
-      position absolute!important
-      overflow hidden!important
-      clip rect(0 0 0 0)
-      height 1px!important
-      width 1px!important
-      margin -1px!important
-      padding 0!important
-      border 0!important
-  .visually-hidden--mobile
-    @media $mobile
-      position absolute!important
-      overflow hidden!important
-      clip rect(0 0 0 0)
-      height 1px!important
-      width 1px!important
-      margin -1px!important
-      padding 0!important
-      border 0!important
+.visually-hidden--tablet
+  @media $tablet
+    position absolute!important
+    overflow hidden!important
+    clip rect(0 0 0 0)
+    height 1px!important
+    width 1px!important
+    margin -1px!important
+    padding 0!important
+    border 0!important
+.visually-hidden--mobile
+  @media $mobile
+    position absolute!important
+    overflow hidden!important
+    clip rect(0 0 0 0)
+    height 1px!important
+    width 1px!important
+    margin -1px!important
+    padding 0!important
+    border 0!important
 
