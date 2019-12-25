@@ -54,6 +54,7 @@ export default {
 
 <style lang="stylus">
   .page
+    padding-top 4rem
     .preloader
       position absolute
       pointer-events none

@@ -1,14 +1,14 @@
 <template lang="pug">
-    .row.books
-      .col-3.book(v-for="book in pagenatedData" :key="book.id")
-        nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-            img(:src="image")
-        nuxt-link(:to="{ path: '/book/' + book.id }").h2.title {{ book.volumeInfo.title }}
-        .author
-            div(v-for="author in book.volumeInfo.authors") {{ author }}
-      .col-12.pagination
-          button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
-          button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
+  transition-group.row.books(name="list-fade-horizontal")
+    .col-3.book(v-for="book in pagenatedData" :key="book.id")
+      nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
+        img(:src="image")
+      nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
+                :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
+      .author(v-for="author in book.volumeInfo.authors") {{ author }}
+    .col-12.pagination(:key="'pagination'")
+        button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
+        button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
 </template>
 
 <script>
@@ -57,6 +57,19 @@ export default {
     }
   },
   methods: {
+    titleShortener(book) {
+      if (book.volumeInfo.title.length > 60) {
+        let result = book.volumeInfo.title.split('').filter((item, index) => {
+          if (index < 50) {
+            return item
+          }
+        });
+        result = result.join('')
+        return `${result}...`
+      }
+
+      return book.volumeInfo.title
+    },
     prevPage() {
         this.pageNumber--
     },
@@ -84,17 +97,41 @@ export default {
       img
           display block
           max-width 100%
+          min-height 15rem
           height auto
           &:hover
               box-shadow 0 0 10px 4px rgba(#000, 0.2)
 
     .title
+      position relative
       margin-top 1rem
       font-size 1.8rem
       font-weight bold
       color $metal
+      &.popovered
+        &::before
+          content attr(data-full-title)
+          display block
+          position absolute
+          bottom 8rem
+          left 2rem
+          width 100%
+          z-index 1
+          padding 2rem
+          background $powder
+          box-shadow 0 0 40px 0 rgba(#000, .3)
+          border-radius 7px
+          font-size 1.5rem
+          opacity 0
+          pointer-events none
+          transition opacity .55s ease .25s
+
       &:hover
-          color $green
+        color $green
+        &::before
+          color black
+          opacity 1
+          pointer-events auto
 
     .author
       font-size 1.4rem
@@ -107,6 +144,7 @@ export default {
     margin-top auto
 
     button
+      user-select none
       width 8rem
       height 3rem
       margin 0 .5rem
