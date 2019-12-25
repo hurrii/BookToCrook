@@ -1,7 +1,7 @@
 <template lang="pug">
   .book
     .row
-      .col-3
+      .col-4
         .image
           img(:src='bookData.imageLinks.thumbnail')
         .lang.heading Язык:&nbsp;
@@ -9,7 +9,7 @@
         .page-count.heading Количество страниц:&nbsp;
           span.normal {{ bookData.pageCount }}
 
-      .col-9
+      .col-8
         .info
           h1.title {{ bookData.title }}
           h2.authors(v-html='bookData.authors.join(", ")')
@@ -75,15 +75,11 @@ export default {
     margin-top 1rem
 
   .image
-    display: flex;
-    border-radius: 9px;
-    overflow: hidden;
-    padding-top 1rem
-    padding-left 1rem
-    background $metal
+    border-radius: 9px
 
     img
-      width 25rem
+      width 100%
+      max-width 25rem
       height auto
 
   .heading
@@ -100,4 +96,25 @@ export default {
       line-height 2.6rem
       margin-top .5rem
 
+  @media $tablet
+    .row
+      // .col-3
+      // .col-9
+      //   max-width 49.99%
+      //   flex 0 0 49.99%
+
+      .col-9
+        order 1
+      .col-3
+        order 2
+
+  @media $mobile
+    .heading
+      margin-top .5rem
+
+    .title
+      margin-top 2rem
+
+    .publisher
+      margin-top 2rem
 </style>

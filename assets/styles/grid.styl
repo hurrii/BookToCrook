@@ -64,7 +64,7 @@ mixinGrid()
       width auto
 
 
-  @media $desktop
+  @media $tablet-desktop
     .row
       margin 0 0 - $sizeDesktop
       &.no-gut
@@ -113,35 +113,35 @@ mixinGrid()
 
 
 
-  @media $tablet
-    .col-auto
-      padding 0 $colSize
+  // @media $tablet
+  //   .col-auto
+  //     padding 0 $colSize
 
-    .row
-      margin 0 0 - ($sectionOffsetHorizontalTablet - 1)
-      &.no-gut
-        margin 0
+  //   .row
+  //     margin 0 0 - ($sectionOffsetHorizontalTablet - 1)
+  //     &.no-gut
+  //       margin 0
 
-      for $colNum in (1..$cols)
+  //     for $colNum in (1..$cols)
 
-        .col-{$colNum}
-          padding 0 $sectionOffsetHorizontalTablet - 1
-          .no-gut &
-            padding 0
+  //       .col-{$colNum}
+  //         padding 0 $sectionOffsetHorizontalTablet - 1
+  //         .no-gut &
+  //           padding 0
 
-        .col-t-{$colNum}
-          flex 0 0 (100% * $colNum / $cols)
-          max-width (100% * $colNum / $cols)
-          padding 0 $sizeTablet
-          .no-gut &
-            padding 0
+  //       .col-t-{$colNum}
+  //         flex 0 0 (100% * $colNum / $cols)
+  //         max-width (100% * $colNum / $cols)
+  //         padding 0 $sizeTablet
+  //         .no-gut &
+  //           padding 0
 
 
-    .container
+  //   .container
 
-      &&--full_width
-        padding-right 0
-        padding-left 0
+  //     &&--full_width
+  //       padding-right 0
+  //       padding-left 0
 
   @media $mobile
     .col-auto

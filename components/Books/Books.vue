@@ -1,6 +1,5 @@
 <template lang="pug">
     .row.books
-      //- p {{ pageData.items }}
       .col-3.book(v-for="book in pagenatedData" :key="book.id")
         nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
             img(:src="image")
@@ -79,14 +78,12 @@ export default {
     color $metal
 
     .cover
-      width 10rem
-      height 18rem
       transition transform 12s
       &:hover
           transform scale(1.2)
       img
           display block
-          width 100%
+          max-width 100%
           height auto
           &:hover
               box-shadow 0 0 10px 4px rgba(#000, 0.2)
@@ -123,4 +120,21 @@ export default {
           cursor pointer
           color white
 
+  @media $tablet
+    .book
+      max-width 33.332%
+      flex 0 0 33.332%
+
+  @media $mobile
+    .book
+      text-align center
+
+      .cover
+      .title
+      .author
+        max-width 20rem
+        margin 0 auto
+
+      .title
+        margin-top 1rem
 </style>
