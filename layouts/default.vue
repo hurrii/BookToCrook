@@ -15,6 +15,7 @@ export default {
   },
   data: () => {
     return {
+      responses: [],
       books: null
     }
   },
@@ -24,8 +25,7 @@ export default {
     ])
   },
   mounted() {
-    this.getData().then(() => {
-      this.loadPageData(this.books);
+    this.fetchBooks().then(() => {
       document.querySelector('.page .preloader').classList.add('loaded');
       document.querySelector('.page').classList.add('loaded');
     })
@@ -35,18 +35,25 @@ export default {
       'loadPageData'
     ]),
     fetchBooks() {
-        const path = 'https://www.googleapis.com/books/v1/volumes?q=fiction&maxResults=40&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
+      return new Promise(resolve => {
+          const API = 'https://www.googleapis.com/books/v1/volumes?q=';
+          const key = '&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
+          const lang = '&langRestrict=ru'
+          const paths = [
+            `${API}subject:fiction${lang}&maxResults=40${key}`,
+            `${API}subject:fiction${lang}&maxResults=40${key}&startIndex=41`,
+            `${API}subject:fiction${lang}&maxResults=40${key}&startIndex=81`
+          ]
 
-        return this.$axios.$get(path).then((response) => {
-            return response
-        });
-    },
-    async getData() {
-        this.books = await this.fetchBooks()
-        return new Promise((resolve) => {
-            resolve()
-            return this.books
-        })
+          paths.forEach(path => {
+            this.$axios.$get(path).then((resp) => {
+              resp.items.forEach(item => this.responses.push(item))
+              this.loadPageData(this.responses)
+            });
+          })
+
+          resolve()
+      })
     }
   }
 }

@@ -34,8 +34,8 @@ export default {
     ]),
     pageAmount() {
       let result = 0
-      if (this.pageData.items) {
-          const l = this.pageData.items.length
+      if (this.pageData) {
+          const l = Object.values(this.pageData).length
           const p = this.pageLimit
 
           result = l / p
@@ -45,11 +45,11 @@ export default {
     },
     pagenatedData() {
       let result = {}
-      if (this.pageData.items) {
+      if (this.pageData) {
           const start = this.pageNumber * this.pageLimit
           const end = start + this.pageLimit
 
-          const data = Array.from(this.pageData.items).slice(start, end)
+          const data = Object.values(this.pageData).slice(start, end)
           result = { ...data }
       }
 
@@ -105,7 +105,8 @@ export default {
     .title
       position relative
       margin-top 1rem
-      font-size 1.8rem
+      font-size 1.6rem
+      line-height 1.25
       font-weight bold
       color $metal
       &.popovered
