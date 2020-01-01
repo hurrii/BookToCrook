@@ -4,8 +4,6 @@
       .col-4
         .image
           img(:src='bookData.imageLinks.thumbnail')
-        .lang.heading Язык:&nbsp;
-          span.normal {{ bookData.language }}
         .page-count.heading Количество страниц:&nbsp;
           span.normal {{ bookData.pageCount }}
 
@@ -34,14 +32,20 @@ export default {
       }
     }
   },
+  head() {
+    return {
+      title: `${this.bookData.title} - BookToCrook`
+    }
+  },
   computed: {
     ...mapState([
       'pageData'
     ]),
     bookData() {
-      console.log(Object.values(this.pageData));
-      if (Object.values(this.pageData).length > 0) {
-        return Object.values(this.pageData).filter(book => book.id === this.$route.params.id)[0].volumeInfo
+      const currentBook = Object.values(this.pageData).filter(book => book.id === this.$route.params.id)
+
+      if (currentBook.length > 0) {
+        return currentBook[0].volumeInfo
       }
       return this.bookDataPlaceholder;
     }
@@ -65,7 +69,6 @@ export default {
   .authors
     margin-top .5rem
 
-  .lang
   .page-count
   .publisher
   .about

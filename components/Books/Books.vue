@@ -2,7 +2,7 @@
   transition-group.row.books(name="list-fade-horizontal")
     .col-3.book(v-for="book in pagenatedData" :key="book.id")
       nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-        img(:src="image")
+        img.image.lazy(:src="image")
       nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
                 :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
       .author(v-for="author in book.volumeInfo.authors") {{ author }}
@@ -56,6 +56,14 @@ export default {
       return result
     }
   },
+  watch: {
+    pageNumber: function () {
+      // this.addObserver()
+    }
+  },
+  mounted() {
+    // this.addObserver()
+  },
   methods: {
     titleShortener(book) {
       if (book.volumeInfo.title.length > 60) {
@@ -75,6 +83,25 @@ export default {
     },
     nextPage() {
         this.pageNumber++
+    },
+    addObserver() {
+      // setTimeout(() => {
+      //   const images = [...document.querySelectorAll('.image')]
+
+      //   function callback (entries) {
+      //     entries.forEach(entry => {
+      //       if (entry.isIntersecting) {
+      //         console.log(entry)
+      //         entry.target.src = ''
+      //         // entry.target.classList.remove('lazy')
+      //       }
+      //     });
+      //   }
+
+      //   const observer = new IntersectionObserver(callback, { root: document.querySelector('html') });
+
+      //   images.forEach(image => observer.observe(image))
+      // }, 100);
     }
   }
 }
@@ -90,17 +117,21 @@ export default {
     padding 2rem
     color $metal
 
-    .cover
-      transition transform 12s
+    .image
+      display block
+      max-width 100%
+      min-height 15rem
+      height auto
+      opacity 1
+      // opacity 0
+      // transition opacity .3s ease
+      // &:not(.lazy)
+      //   opacity 1
       &:hover
-          transform scale(1.2)
-      img
-          display block
-          max-width 100%
-          min-height 15rem
-          height auto
+        box-shadow 0 0 10px 4px rgba(#000, 0.2)
+        .title
           &:hover
-              box-shadow 0 0 10px 4px rgba(#000, 0.2)
+            color $green
 
     .title
       position relative

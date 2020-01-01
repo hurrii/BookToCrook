@@ -36,23 +36,31 @@ export default {
     ]),
     fetchBooks() {
       return new Promise(resolve => {
+          const requests = []
           const API = 'https://www.googleapis.com/books/v1/volumes?q=';
-          const key = '&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
-          const lang = '&langRestrict=ru'
+          const key = '&key=AIzaSyA-X-gXjYDzE5ueWgpDluu_0I1DjC-KyVY'
+          const options = '&langRestrict=ru&maxResults=40'
+
           const paths = [
-            `${API}subject:fiction${lang}&maxResults=40${key}`,
-            `${API}subject:fiction${lang}&maxResults=40${key}&startIndex=41`,
-            `${API}subject:fiction${lang}&maxResults=40${key}&startIndex=81`
+            `${API}subject:fiction${options}${key}`,
+            `${API}subject:fiction${options}${key}&startIndex=41`,
+            `${API}subject:fiction${options}${key}&startIndex=81`,
+            `${API}subject:fiction${options}${key}&startIndex=121`
           ]
 
           paths.forEach(path => {
-            this.$axios.$get(path).then((resp) => {
+            requests.push(this.$axios.$get(path).then((resp) => {
               resp.items.forEach(item => this.responses.push(item))
-              this.loadPageData(this.responses)
-            });
+            }).catch(err => console.error(err)))
           })
 
-          resolve()
+          const passToVuex = async () => {
+            await Promise.all(requests)
+            this.loadPageData(this.responses)
+            resolve()
+          }
+
+          passToVuex()
       })
     }
   }
