@@ -1,6 +1,6 @@
 <template lang="pug">
     main.main
-      .container
+      section.container
         .content
           slot
 </template>
@@ -18,13 +18,5 @@ export default {
 
     .container
       display flex
-
-    .content
-      flex 1
-      margin 2rem 0
-      padding 2rem
-      background $lightgray
-      border-radius $radius
-      box-shadow: 0 0 4px -1px rgba($black, 0.2);
 
 </style>

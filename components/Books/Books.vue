@@ -1,14 +1,15 @@
 <template lang="pug">
-  transition-group.row.books(name="list-fade-horizontal")
-    .col-3.book(v-for="book in pagenatedData" :key="book.id")
-      nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-        img.image.lazy(:src="image")
-      nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
-                :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
-      .author(v-for="author in book.volumeInfo.authors") {{ author }}
-    .col-12.pagination(:key="'pagination'")
-        button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
-        button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
+  section.content
+    transition-group.row.books(name="list-fade-horizontal")
+      .col-3.book(v-for="book in pagenatedData" :key="book.id")
+        nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
+          img.image.lazy(:src="image")
+        nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
+                  :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
+        .author(v-for="author in book.volumeInfo.authors") {{ author }}
+      .col-12.pagination(:key="'pagination'")
+          button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
+          button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
 </template>
 
 <script>
@@ -108,6 +109,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .content
+    flex 1
+    margin 2rem 0
+    padding 2rem
+    background $lightgray
+    border-radius $radius
+    box-shadow: 0 0 4px -1px rgba($black, 0.2)
+
   .row
     height 100%
 
@@ -117,21 +126,22 @@ export default {
     padding 2rem
     color $metal
 
+    &:hover
+      .title
+        color $green
+      .image
+        box-shadow 0 0 10px 4px rgba(#000, 0.2)
+
     .image
       display block
       max-width 100%
       min-height 15rem
       height auto
-      opacity 1
+      transition box-shadow .35s ease
       // opacity 0
       // transition opacity .3s ease
       // &:not(.lazy)
       //   opacity 1
-      &:hover
-        box-shadow 0 0 10px 4px rgba(#000, 0.2)
-        .title
-          &:hover
-            color $green
 
     .title
       position relative
@@ -159,7 +169,6 @@ export default {
           transition opacity .55s ease .25s
 
       &:hover
-        color $green
         &::before
           color black
           opacity 1
