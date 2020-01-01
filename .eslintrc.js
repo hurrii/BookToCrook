@@ -18,6 +18,7 @@ module.exports = {
     'space-before-function-paren': "off",
     'no-console': 'off',
     'object-shorthand': 'off',
-    'semi': 'off'
+    'semi': 'off',
+    'arrow-parens': 'off'
   }
 }
