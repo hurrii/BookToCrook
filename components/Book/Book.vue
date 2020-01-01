@@ -17,10 +17,6 @@
             span.normal {{  bookData.publisher }}
           .about.heading(v-if='bookData.description') О книге
             .normal {{ bookData.description }}
-    //- .row
-    //-   .col-3
-    //-   .col-9
-    //-     .asdas {{ bookData }}
 </template>
 
 <script>
@@ -43,8 +39,9 @@ export default {
       'pageData'
     ]),
     bookData() {
-      if (this.pageData.items) {
-        return this.pageData.items.filter(book => book.id === this.$route.params.id)[0].volumeInfo
+      console.log(Object.values(this.pageData));
+      if (Object.values(this.pageData).length > 0) {
+        return Object.values(this.pageData).filter(book => book.id === this.$route.params.id)[0].volumeInfo
       }
       return this.bookDataPlaceholder;
     }
