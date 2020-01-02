@@ -42,10 +42,10 @@ export default {
           const options = '&langRestrict=ru&maxResults=40'
 
           const paths = [
-            `${API}subject:fiction${options}${key}`,
-            `${API}subject:fiction${options}${key}&startIndex=41`,
-            `${API}subject:fiction${options}${key}&startIndex=81`,
-            `${API}subject:fiction${options}${key}&startIndex=121`
+            `${API}subject:fiction${options}${key}`
+            // `${API}subject:fiction${options}${key}&startIndex=41`
+            // `${API}subject:fiction${options}${key}&startIndex=81`,
+            // `${API}subject:fiction${options}${key}&startIndex=121`
           ]
 
           paths.forEach(path => {
