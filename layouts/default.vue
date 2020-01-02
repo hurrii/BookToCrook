@@ -3,15 +3,18 @@
     .preloader
     Header
     nuxt
+    Footer
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
 import Header from '~/components/Header/Header.vue'
+import Footer from '~/components/Footer/Footer.vue'
 
 export default {
   components: {
-    Header
+    Header,
+    Footer
   },
   data: () => {
     return {
