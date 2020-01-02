@@ -1,25 +1,9 @@
 <template lang="pug">
   .categories
     .list
-      .category
-        .image(:style="{ backgroundImage: `url( ${require('~/assets/img/categories/fiction.jpg')} )` }")
-        .heading Художественная литература
-      .category
-        .image(:style="{ backgroundImage: `url( ${require('~/assets/img/categories/nonfiction.jpg')} )` }")
-        .heading Научно-популярная литература
-        .image
-      .category
-        .image(:style="{ backgroundImage: `url( ${require('~/assets/img/categories/business.png')} )` }")
-        .heading Бизнес-литература
-        .image
-      .category
-        .image(:style="{ backgroundImage: `url( ${require('~/assets/img/categories/comics.jpg')} )` }")
-        .heading Комиксы
-        .image
-      .category
-        .image(:style="{ backgroundImage: `url( ${require('~/assets/img/categories/family.png')} )` }")
-        .heading Детям и родителям
-        .image
+      nuxt-link(v-for="category in categories" :to="{ path: `/category/${category.name}` }").category
+        .image(:style="{ backgroundImage: `url( ${require(`~/assets/img/categories/${category.name}.jpg`)} )` }")
+        .heading {{ category.title }}
 </template>
 
 <script>
@@ -28,6 +12,33 @@ import { mapState } from 'vuex'
 export default {
   data: () => {
     return {
+      categories: [
+        {
+          id: 1,
+          name: 'fiction',
+          title: 'Художественная литература'
+        },
+        {
+          id: 2,
+          name: 'nonfiction',
+          title: 'Научно-популярная литература'
+        },
+        {
+          id: 3,
+          name: 'business',
+          title: 'Бизнес-литература'
+        },
+        {
+          id: 4,
+          name: 'comics',
+          title: 'Комиксы'
+        },
+        {
+          id: 5,
+          name: 'family',
+          title: 'Детям и родителям'
+        }
+      ]
     }
   },
   computed: {
