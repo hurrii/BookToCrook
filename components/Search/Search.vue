@@ -44,8 +44,8 @@
         cursor pointer
         .icon
           margin 0 auto
-          width 2.5rem
-          height 2.5rem
+          width 1.8rem
+          height 1.8rem
           fill white
 
         &:hover

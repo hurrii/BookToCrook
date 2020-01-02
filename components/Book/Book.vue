@@ -1,20 +1,21 @@
 <template lang="pug">
-  .book
-    .row
-      .col-4
-        .image
-          img(:src='bookData.imageLinks.thumbnail')
-        .page-count.heading Количество страниц:&nbsp;
-          span.normal {{ bookData.pageCount }}
+  .content
+    .book
+      .row
+        .col-4
+          .image
+            img(:src='bookData.imageLinks.thumbnail')
+          .page-count.heading Количество страниц:&nbsp;
+            span.normal {{ bookData.pageCount }}
 
-      .col-8
-        .info
-          h1.title {{ bookData.title }}
-          h2.authors(v-html='bookData.authors.join(", ")')
-          .publisher.heading Издательство:&nbsp;
-            span.normal {{  bookData.publisher }}
-          .about.heading(v-if='bookData.description') О книге
-            .normal {{ bookData.description }}
+        .col-8
+          .info
+            h1.title {{ bookData.title }}
+            h2.authors(v-html='bookData.authors.join(", ")')
+            .publisher.heading Издательство:&nbsp;
+              span.normal {{  bookData.publisher }}
+            .about.heading(v-if='bookData.description') О книге
+              .normal {{ bookData.description }}
 </template>
 
 <script>
@@ -61,6 +62,14 @@ export default {
   .loaded
     .book
       opacity 1
+
+  .content
+    margin 2rem 0
+    flex 1
+    padding 2rem
+    background $lightgray
+    border-radius $radius
+    box-shadow: 0 0 4px -1px rgba($black, 0.2)
 
   .title
     color $green

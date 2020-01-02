@@ -1,14 +1,16 @@
 <template lang="pug">
-  transition-group.row.books(name="list-fade-horizontal")
-    .col-3.book(v-for="book in pagenatedData" :key="book.id")
-      nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-        img.image.lazy(:src="image")
-      nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
-                :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
-      .author(v-for="author in book.volumeInfo.authors") {{ author }}
-    .col-12.pagination(:key="'pagination'")
-        button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
-        button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
+  section.content
+    div {{ category }}
+    transition-group.row.books(name="list-fade-horizontal")
+      .col-3.book(v-for="book in pagenatedData" :key="book.id")
+        nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
+          img.image.lazy(:src="image")
+        nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
+                  :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
+        .author(v-for="author in book.volumeInfo.authors") {{ author }}
+      .col-12.pagination(:key="'pagination'")
+          button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
+          button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
 </template>
 
 <script>
@@ -17,12 +19,16 @@ import { mapState } from 'vuex'
 export default {
   props: {
     data: {
-        type: Object,
-        default: () => {}
+      type: Object,
+      default: () => {}
     },
     pageLimit: {
-        type: Number,
-        default: 8
+      type: Number,
+      default: 8
+    },
+    category: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -32,10 +38,23 @@ export default {
     ...mapState([
       'pageData'
     ]),
+    filteredData() {
+      let result = {}
+
+      if (this.pageData) {
+        result = Object.values(this.pageData).filter(book => book.volumeInfo.imageLinks)
+      }
+
+      if (this.pageData && this.category) {
+        result = Object.values(this.pageData).filter(book => book.volumeInfo.infoLink.includes(this.category) && book.volumeInfo.imageLinks)
+      }
+
+      return result;
+    },
     pageAmount() {
       let result = 0
-      if (this.pageData) {
-          const l = Object.values(this.pageData).length
+      if (this.filteredData) {
+          const l = Object.values(this.filteredData).length
           const p = this.pageLimit
 
           result = l / p
@@ -45,24 +64,16 @@ export default {
     },
     pagenatedData() {
       let result = {}
-      if (this.pageData) {
+      if (this.filteredData) {
           const start = this.pageNumber * this.pageLimit
           const end = start + this.pageLimit
 
-          const data = Object.values(this.pageData).slice(start, end)
+          const data = Object.values(this.filteredData).slice(start, end)
           result = { ...data }
       }
 
       return result
     }
-  },
-  watch: {
-    pageNumber: function () {
-      // this.addObserver()
-    }
-  },
-  mounted() {
-    // this.addObserver()
   },
   methods: {
     titleShortener(book) {
@@ -108,6 +119,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .content
+    flex 1
+    margin 2rem 0
+    padding 2rem
+    background $lightgray
+    border-radius $radius
+    box-shadow: 0 0 4px -1px rgba($black, 0.2)
+
   .row
     height 100%
 
@@ -117,21 +136,22 @@ export default {
     padding 2rem
     color $metal
 
+    &:hover
+      .title
+        color $green
+      .image
+        box-shadow 0 0 10px 4px rgba(#000, 0.2)
+
     .image
       display block
       max-width 100%
       min-height 15rem
       height auto
-      opacity 1
+      transition box-shadow .35s ease
       // opacity 0
       // transition opacity .3s ease
       // &:not(.lazy)
       //   opacity 1
-      &:hover
-        box-shadow 0 0 10px 4px rgba(#000, 0.2)
-        .title
-          &:hover
-            color $green
 
     .title
       position relative
@@ -159,7 +179,6 @@ export default {
           transition opacity .55s ease .25s
 
       &:hover
-        color $green
         &::before
           color black
           opacity 1
