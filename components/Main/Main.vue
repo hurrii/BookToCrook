@@ -1,8 +1,7 @@
 <template lang="pug">
     main.main
       section.container
-        .content
-          slot
+        slot
 </template>
 
 <script>
@@ -18,5 +17,6 @@ export default {
 
     .container
       display flex
+      flex-flow column wrap
 
 </style>
