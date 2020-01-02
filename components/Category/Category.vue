@@ -1,7 +1,7 @@
 <template lang="pug">
   .content
     .category
-      h1 category yeaaah!
+      h1 {{ this.$route.params.name }}
 </template>
 
 <script>

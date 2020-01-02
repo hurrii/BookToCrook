@@ -38,14 +38,19 @@ export default {
       return new Promise(resolve => {
           const requests = []
           const API = 'https://www.googleapis.com/books/v1/volumes?q=';
+          const options = '&maxResults=40'
           const key = '&key=AIzaSyA-X-gXjYDzE5ueWgpDluu_0I1DjC-KyVY'
-          const options = '&langRestrict=ru&maxResults=40'
 
           const paths = [
-            `${API}subject:fiction${options}${key}`
-            // `${API}subject:fiction${options}${key}&startIndex=41`
-            // `${API}subject:fiction${options}${key}&startIndex=81`,
-            // `${API}subject:fiction${options}${key}&startIndex=121`
+            `${API}subject:fiction&langRestrict=ru${options}${key}`,
+            `${API}subject:nonfiction${options}${key}`,
+            `${API}subject:business${options}${key}`,
+            `${API}subject:comic books${options}${key}`,
+            `${API}subject:parents+and+kids${options}${key}`
+
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=41`
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=81`,
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=121`
           ]
 
           paths.forEach(path => {

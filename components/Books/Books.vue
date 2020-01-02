@@ -1,5 +1,6 @@
 <template lang="pug">
   section.content
+    div {{ category }}
     transition-group.row.books(name="list-fade-horizontal")
       .col-3.book(v-for="book in pagenatedData" :key="book.id")
         nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
@@ -18,12 +19,16 @@ import { mapState } from 'vuex'
 export default {
   props: {
     data: {
-        type: Object,
-        default: () => {}
+      type: Object,
+      default: () => {}
     },
     pageLimit: {
-        type: Number,
-        default: 8
+      type: Number,
+      default: 8
+    },
+    category: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -33,10 +38,23 @@ export default {
     ...mapState([
       'pageData'
     ]),
+    filteredData() {
+      let result = {}
+
+      if (this.pageData) {
+        result = Object.values(this.pageData).filter(book => book.volumeInfo.imageLinks)
+      }
+
+      if (this.pageData && this.category) {
+        result = Object.values(this.pageData).filter(book => book.volumeInfo.infoLink.includes(this.category) && book.volumeInfo.imageLinks)
+      }
+
+      return result;
+    },
     pageAmount() {
       let result = 0
-      if (this.pageData) {
-          const l = Object.values(this.pageData).length
+      if (this.filteredData) {
+          const l = Object.values(this.filteredData).length
           const p = this.pageLimit
 
           result = l / p
@@ -46,24 +64,16 @@ export default {
     },
     pagenatedData() {
       let result = {}
-      if (this.pageData) {
+      if (this.filteredData) {
           const start = this.pageNumber * this.pageLimit
           const end = start + this.pageLimit
 
-          const data = Object.values(this.pageData).slice(start, end)
+          const data = Object.values(this.filteredData).slice(start, end)
           result = { ...data }
       }
 
       return result
     }
-  },
-  watch: {
-    pageNumber: function () {
-      // this.addObserver()
-    }
-  },
-  mounted() {
-    // this.addObserver()
   },
   methods: {
     titleShortener(book) {

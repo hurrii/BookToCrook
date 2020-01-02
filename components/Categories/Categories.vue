@@ -1,7 +1,7 @@
 <template lang="pug">
   .categories
     .list
-      nuxt-link(v-for="category in categories" :to="{ path: `/category/${category.name}` }").category
+      nuxt-link(v-for="category in categories" :to="{ path: `/category/${category.name}` }" :key='category.name').category
         .image(:style="{ backgroundImage: `url( ${require(`~/assets/img/categories/${category.name}.jpg`)} )` }")
         .heading {{ category.title }}
 </template>
@@ -30,12 +30,12 @@ export default {
         },
         {
           id: 4,
-          name: 'comics',
+          name: 'comic+books',
           title: 'Комиксы'
         },
         {
           id: 5,
-          name: 'family',
+          name: 'parents+and+kids',
           title: 'Детям и родителям'
         }
       ]
