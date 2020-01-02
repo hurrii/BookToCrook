@@ -72,6 +72,7 @@ export default {
         .image
           filter none
           transform scale(1)
+          transition filter .3s ease, transform 7s
 
       .image
         position absolute
@@ -85,7 +86,7 @@ export default {
         filter grayscale(.75)
         transform scale(1.1)
         will-change transform
-        transition filter .3s ease, transform 7s
+        transition filter .3s ease, transform 1.5s
         width 100%
         height 100%
 
