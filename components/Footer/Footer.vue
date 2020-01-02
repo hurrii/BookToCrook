@@ -2,8 +2,8 @@
   footer.footer
     .container
       .wrapper
-        a(href='https://developers.google.com/books' target='__blank')
-          img.google(src='~/assets/img/powered_by_googe.png')
+        a(href='https://developers.google.com/books' target='__blank').google
+          img(src='~/assets/img/powered_by_googe.png')
         a(href='https://github.com/hurrii' target='__blank').copyright Made by&nbsp;
           b.me hurrii
 
@@ -12,7 +12,7 @@
 <style lang="stylus" scoped>
   .footer
     margin-top 2rem
-    height 4rem
+    height 5rem
     .container
       height inherit
 
@@ -25,10 +25,12 @@
       border-top 1px solid rgba(#000, .25)
 
     .google
-      display block
-      height 100%
+      height 3rem
+      display flex
+      align-items center
 
     .copyright
+      height 3rem
       font-family monospace, sans-serif
       margin-left 2rem
       font-size 1.8rem
