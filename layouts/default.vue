@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'loadPageData'
+      'savePageData'
     ]),
     fetchBooks() {
       return new Promise(resolve => {
@@ -64,7 +64,7 @@ export default {
 
           const passToVuex = async () => {
             await Promise.all(requests)
-            this.loadPageData(this.responses)
+            this.savePageData(this.responses)
             resolve()
           }
 
