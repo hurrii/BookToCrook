@@ -1,10 +1,16 @@
 export const state = () => ({
-  pageData: {}
+  pageData: {},
+  searchResultsData: {}
 })
 
 export const mutations = {
-  loadPageData (state, payload) {
+  savePageData (state, payload) {
     state.pageData = {
+      ...payload
+    }
+  },
+  saveSearchResults (state, payload) {
+    state.searchResultsData = {
       ...payload
     }
   }
