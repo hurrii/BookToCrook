@@ -61,7 +61,7 @@ export default {
     .category
       position relative
       max-width 16rem
-      width 100%
+      flex 1 1 16rem
       min-height 20rem
       border-radius 7px
       box-shadow 0 0 8px 7px rgba(#000, 0.2)
@@ -102,4 +102,24 @@ export default {
         font-weight bold
         color #fff
         text-shadow 0 0 4px #000
+
+  @media $mobile-tablet
+    .categories
+
+      .list
+        display flex
+        justify-content space-between
+        flex-flow row wrap
+        margin 0 -1rem
+
+      .category
+        max-width 49%
+        margin-bottom 2rem
+        flex 0 1 49%
+        min-height 10rem
+        padding .5rem
+
+        .heading
+          max-width unset
+
 </style>
