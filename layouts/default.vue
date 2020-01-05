@@ -1,9 +1,10 @@
 <template lang='pug'>
-  .page
+  .wrapper
     .preloader
-    Header
-    nuxt
-    Footer
+    .page
+      Header
+      nuxt
+      Footer
 </template>
 
 <script>
@@ -29,7 +30,7 @@ export default {
   },
   mounted() {
     this.fetchBooks().then(() => {
-      document.querySelector('.page .preloader').classList.add('loaded');
+      document.querySelector('.preloader').classList.add('loaded');
       document.querySelector('.page').classList.add('loaded');
     })
   },
@@ -42,7 +43,7 @@ export default {
           const requests = []
           const API = 'https://www.googleapis.com/books/v1/volumes?q=';
           const options = '&maxResults=40'
-          const key = '&key=AIzaSyA-X-gXjYDzE5ueWgpDluu_0I1DjC-KyVY'
+          const key = '&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
 
           const paths = [
             `${API}subject:fiction&langRestrict=ru${options}${key}`,
@@ -78,17 +79,24 @@ export default {
 <style lang="stylus">
   .page
     padding-top 4rem
-    .preloader
-      position absolute
-      pointer-events none
-      top 0
-      left 0
-      z-index 900
-      width 100%
-      height 100%
-      background url('~assets/img/preloader.svg') no-repeat center
+    opacity 1
+    transition opacity 1s ease
+  .preloader
+    position absolute
+    pointer-events none
+    top 0
+    left 0
+    z-index 900
+    width 100%
+    height 100%
+    background url('~assets/img/preloader.svg') no-repeat center
+    opacity 0
+    transition opacity 1s ease
+    &:not(.loaded)
+      opacity 1
+
+  .page
+    &:not(.loaded)
       opacity 0
-      transition opacity 1s ease
-      &:not(.loaded)
-        opacity 1
+
 </style>
