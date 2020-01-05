@@ -1,16 +1,18 @@
 <template lang="pug">
-  section.content
-    div {{ category }}
-    transition-group.row.books(name="list-fade-horizontal")
-      .col-3.book(v-for="book in pagenatedData" :key="book.id")
-        nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-          img.image.lazy(:src="image")
-        nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 60 ? 'popovered' : ''"
-                  :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
-        .author(v-for="author in book.volumeInfo.authors") {{ author }}
-      .col-12.pagination(:key="'pagination'")
-          button.btn.prev(@click="prevPage" :disabled="pageNumber < 1" :class="{ disabled : pageNumber < 1 }") Previous
-          button.btn.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1" :class="{ disabled : pageNumber === pageAmount - 1}") Next
+  .wrapper
+    section.content
+      div {{ category }}
+      transition-group.row.books(name="list-fade-horizontal")
+        .col-3.book(v-for="book in pagenatedData" :key="book.id")
+          nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
+            img.image.lazy(:src="image")
+          nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 47 ? 'popovered' : ''"
+                    :data-full-title="book.volumeInfo.title").h2.title {{ contentShortener(book.volumeInfo.title) }}
+          .author(v-html="contentShortener(authorsToString(book.volumeInfo.authors))")
+    .pagination(v-if="pageAmount > 1" :key="'pagination'")
+        button.btn.prev(@click="prevPage" :disabled="pageNumber < 1" :class="{ disabled : pageNumber < 1 }") Назад
+        button.btn(v-for='page in pageAmount' @click='pageNumber = page - 1' :class='pageNumber === page - 1 ? "active" : ""' v-html='page')
+        button.btn.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1" :class="{ disabled : pageNumber === pageAmount - 1 }") Далее
 </template>
 
 <script>
@@ -76,10 +78,10 @@ export default {
     }
   },
   methods: {
-    titleShortener(book) {
-      if (book.volumeInfo.title.length > 60) {
-        let result = book.volumeInfo.title.split('').filter((item, index) => {
-          if (index < 50) {
+    contentShortener(content) {
+      if (content.length > 47) {
+        let result = content.split('').filter((item, index) => {
+          if (index < 47) {
             return item
           }
         });
@@ -87,7 +89,7 @@ export default {
         return `${result}...`
       }
 
-      return book.volumeInfo.title
+      return content
     },
     prevPage() {
         this.pageNumber--
@@ -95,31 +97,21 @@ export default {
     nextPage() {
         this.pageNumber++
     },
-    addObserver() {
-      // setTimeout(() => {
-      //   const images = [...document.querySelectorAll('.image')]
-
-      //   function callback (entries) {
-      //     entries.forEach(entry => {
-      //       if (entry.isIntersecting) {
-      //         console.log(entry)
-      //         entry.target.src = ''
-      //         // entry.target.classList.remove('lazy')
-      //       }
-      //     });
-      //   }
-
-      //   const observer = new IntersectionObserver(callback, { root: document.querySelector('html') });
-
-      //   images.forEach(image => observer.observe(image))
-      // }, 100);
+    authorsToString(authors) {
+      return authors ? authors.join(', ') : ''
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+  .wrapper
+    display flex
+    justify-content center
+    flex-flow column wrap
+
   .content
+    position relative
     flex 1
     margin 2rem 0
     padding 2rem
@@ -127,14 +119,16 @@ export default {
     border-radius $radius
     box-shadow: 0 0 4px -1px rgba($black, 0.2)
 
-  .row
+  .row.books
     height 100%
 
   .book
     display flex
     flex-flow column wrap
-    padding 2rem
     color $metal
+
+    .cover
+      height 14rem
 
     &:hover
       .title
@@ -143,15 +137,8 @@ export default {
         box-shadow 0 0 10px 4px rgba(#000, 0.2)
 
     .image
-      display block
-      max-width 100%
-      min-height 15rem
-      height auto
+      height 100%
       transition box-shadow .35s ease
-      // opacity 0
-      // transition opacity .3s ease
-      // &:not(.lazy)
-      //   opacity 1
 
     .title
       position relative
@@ -160,6 +147,7 @@ export default {
       line-height 1.25
       font-weight bold
       color $metal
+      min-height 3rem
       &.popovered
         &::before
           content attr(data-full-title)
@@ -186,17 +174,20 @@ export default {
 
     .author
       font-size 1.4rem
-      font-weight 2.4rem
-      margin-top .5rem
+      line-height  2.4rem
+      margin-top 1rem
+      min-height 4.5rem
 
   .pagination
     display flex
-    justify-content center
-    margin-top auto
+    flex-flow row wrap
+    margin 0 auto
+    padding-bottom 2rem
 
     .btn
       user-select none
-      width 8rem
+      width auto
+      padding 0 .5rem
       height 3rem
       margin 0 .5rem
       font-size 1.4rem
@@ -205,21 +196,43 @@ export default {
       transition background .2s ease, color .2s ease
       text-transform uppercase
       cursor pointer
-      &:hover
-          background $green
-          color white
+      &.active
+        background $green
+        color white
       &.disabled
         &:hover
+          cursor default
           opacity .65
+
+  @media $desktop
+    .pagination
+      .btn
+        &:hover
+          background $green
+          color white
 
   @media $tablet
     .book
       max-width 33.332%
       flex 0 0 33.332%
 
+  @media $mobile-tablet
+    .pagination
+      .btn
+        margin-bottom 1rem
+
+        &:active
+          background $green
+          color white
+
+      .prev
+      .next
+        order 1
+
   @media $mobile
     .book
       text-align center
+      margin-bottom 2rem
 
       .cover
       .title
@@ -229,4 +242,5 @@ export default {
 
       .title
         margin-top 1rem
+
 </style>
