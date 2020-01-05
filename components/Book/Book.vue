@@ -11,7 +11,7 @@
         .col-8
           .info
             h1.title {{ bookData.title }}
-            h2.authors(v-html='bookData.authors.join(", ")')
+            h2.authors(v-if='bookData.authors' v-html='bookData.authors.join(", ")')
             .publisher.heading Издательство:&nbsp;
               span.normal {{  bookData.publisher }}
             .about.heading(v-if='bookData.description') О книге
