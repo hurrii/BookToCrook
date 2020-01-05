@@ -9,8 +9,8 @@
                   :data-full-title="book.volumeInfo.title").h2.title {{ titleShortener(book) }}
         .author(v-for="author in book.volumeInfo.authors") {{ author }}
       .col-12.pagination(:key="'pagination'")
-          button.prev(@click="prevPage" :disabled="pageNumber < 1") Previous
-          button.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1") Next
+          button.btn.prev(@click="prevPage" :disabled="pageNumber < 1" :class="{ disabled : pageNumber < 1 }") Previous
+          button.btn.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1" :class="{ disabled : pageNumber === pageAmount - 1}") Next
 </template>
 
 <script>
@@ -194,7 +194,7 @@ export default {
     justify-content center
     margin-top auto
 
-    button
+    .btn
       user-select none
       width 8rem
       height 3rem
@@ -204,10 +204,13 @@ export default {
       border-radius $radius
       transition background .2s ease, color .2s ease
       text-transform uppercase
+      cursor pointer
       &:hover
           background $green
-          cursor pointer
           color white
+      &.disabled
+        &:hover
+          opacity .65
 
   @media $tablet
     .book
