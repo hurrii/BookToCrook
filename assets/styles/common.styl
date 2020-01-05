@@ -97,7 +97,8 @@ a
       color $green
 
 .container
-  width $containerWidthDesktop
+  width 100%
+  max-width $containerWidthDesktop
   margin 0 auto
   height inherit
 
@@ -109,9 +110,11 @@ a
     padding 0 4rem
   
 button
+  cursor pointer
   padding 0
   border none
   background-color transparent
+  user-select none
   outline none
   appearance none
   -webkit-appearance: none;

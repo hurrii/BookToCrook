@@ -111,7 +111,6 @@ export default {
     flex-flow column wrap
 
   .content
-    position relative
     flex 1
     margin 2rem 0
     padding 2rem
@@ -185,8 +184,6 @@ export default {
     padding-bottom 2rem
 
     .btn
-      user-select none
-      width auto
       padding 0 .5rem
       height 3rem
       margin 0 .5rem
@@ -195,7 +192,6 @@ export default {
       border-radius $radius
       transition background .2s ease, color .2s ease
       text-transform uppercase
-      cursor pointer
       &.active
         background $green
         color white
@@ -242,5 +238,4 @@ export default {
 
       .title
         margin-top 1rem
-
 </style>
