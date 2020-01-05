@@ -110,7 +110,6 @@ export default {
         display flex
         justify-content space-between
         flex-flow row wrap
-        margin 0 -1rem
 
       .category
         max-width 49%
