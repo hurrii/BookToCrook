@@ -22,6 +22,10 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      console: {
+        type: Object,
+        default: console
+      },
       searchResults: {
         type: Array,
         default: []
@@ -65,7 +69,7 @@ export default {
         this.searchResults = []
         this.$refs.input.value = ''
         this.searchQuery = ''
-      }, 100);
+      }, 300);
     }
   }
 }
