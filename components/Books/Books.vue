@@ -10,9 +10,9 @@
                     :data-full-title="book.volumeInfo.title").h2.title {{ contentShortener(book.volumeInfo.title) }}
           .author(v-html="contentShortener(authorsToString(book.volumeInfo.authors))")
     .pagination(v-if="pageAmount > 1" :key="'pagination'")
-        button.btn.prev(@click="prevPage" :disabled="pageNumber < 1" :class="{ disabled : pageNumber < 1 }") Назад
-        button.btn(v-for='page in pageAmount' @click='pageNumber = page - 1' :class='pageNumber === page - 1 ? "active" : ""' v-html='page')
-        button.btn.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1" :class="{ disabled : pageNumber === pageAmount - 1 }") Далее
+        button.btn.prev(@click="prevPage" :disabled="isTherePreviousPage" :class="{ disabled : isTherePreviousPage }") Назад
+        button.btn(v-for='page in pageAmount' @click='pageNumber = page - 1' :class='isPageActive(page) ? "active" : ""' v-html='page')
+        button.btn.next(@click="nextPage" :disabled="isThereNextPage" :class="{ disabled : isThereNextPage }") Далее
 </template>
 
 <script>
@@ -68,6 +68,12 @@ export default {
       }
 
       return result
+    },
+    isTherePreviousPage() {
+      return this.pageNumber < 1
+    },
+    isThereNextPage() {
+      return this.pageNumber === this.pageAmount - 1
     }
   },
   methods: {
@@ -92,6 +98,9 @@ export default {
     },
     authorsToString(authors) {
       return authors ? authors.join(', ') : ''
+    },
+    isPageActive(page) {
+      return this.pageNumber === page - 1
     }
   }
 }
