@@ -47,7 +47,12 @@ export default {
 
           const paths = [
             `${API}subject:fiction&langRestrict=ru${options}${key}`,
-            `${API}subject:nonfiction${options}${key}`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=41`,
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=81`,
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=121`,
+            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=161`,
+            `${API}subject:nonfiction${options}${key}&startIndex=41`,
+            `${API}subject:nonfiction${options}${key}&startIndex=81`,
             `${API}subject:business${options}${key}`,
             `${API}subject:comic books${options}${key}`,
             `${API}subject:parents+and+kids${options}${key}`
@@ -65,7 +70,8 @@ export default {
 
           const passToVuex = async () => {
             await Promise.all(requests)
-            this.savePageData(this.responses)
+            const result = this.responses.filter(item => item.volumeInfo.authors && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.smallThumbnail && item.volumeInfo.imageLinks.thumbnail)
+            this.savePageData(result)
             resolve()
           }
 
