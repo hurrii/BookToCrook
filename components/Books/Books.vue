@@ -42,15 +42,8 @@ export default {
     ]),
     filteredData() {
       let result = {}
-
-      if (this.pageData) {
-        result = Object.values(this.pageData).filter(book => book.volumeInfo.imageLinks)
-      }
-
-      if (this.pageData && this.category) {
-        result = Object.values(this.pageData).filter(book => book.volumeInfo.infoLink.includes(this.category) && book.volumeInfo.imageLinks)
-      }
-
+      result = this.pageData ? Object.values(this.pageData).filter(book => book.volumeInfo.imageLinks) : result
+      result = this.pageData && this.category ? Object.values(this.pageData).filter(book => book.volumeInfo.infoLink.includes(this.category) && book.volumeInfo.imageLinks) : result
       return result;
     },
     pageAmount() {
