@@ -229,16 +229,9 @@ export default {
   @media $mobile-tablet
     .pagination
       .btn
-        margin-bottom 1rem
-
         &:active
           background $green
           color white
-
-      .prev
-      .next
-        order 1
-
   @media $mobile
     .book
       text-align center
@@ -252,4 +245,8 @@ export default {
 
       .title
         margin-top 1rem
+
+    .pagination
+      .btn
+        font-size 1.2rem
 </style>
