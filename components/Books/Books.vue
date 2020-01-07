@@ -10,9 +10,13 @@
                     :data-full-title="book.volumeInfo.title").h2.title {{ contentShortener(book.volumeInfo.title) }}
           .author(v-html="contentShortener(authorsToString(book.volumeInfo.authors))")
     .pagination(v-if="pageAmount > 1" :key="'pagination'")
-        button.btn.prev(@click="prevPage" :disabled="pageNumber < 1" :class="{ disabled : pageNumber < 1 }") Назад
-        button.btn(v-for='page in pageAmount' @click='pageNumber = page - 1' :class='pageNumber === page - 1 ? "active" : ""' v-html='page')
-        button.btn.next(@click="nextPage" :disabled="pageNumber === pageAmount - 1" :class="{ disabled : pageNumber === pageAmount - 1 }") Далее
+        button.btn.prev(@click="prevPage" :disabled="isTherePreviousPage" :class="{ disabled : isTherePreviousPage }") Назад
+        button.btn.first(@click='pageNumber = 0' :class="{ active : pageNumber === 0}" v-html='1')
+        span.dots(v-if='pageNumber > 2') ...
+        button.btn(v-for='page in generatePages' @click='pageNumber = page' :class='isPageActive(page + 1) ? "active" : ""' v-html='page + 1')
+        span.dots(v-if='pageNumber <= pageAmount - 5') ...
+        button.btn.last(@click='pageNumber = pageAmount - 1' :class="{ active : isPageActive(pageAmount)}" v-html='pageAmount')
+        button.btn.next(@click="nextPage" :disabled="isThereNextPage" :class="{ disabled : isThereNextPage }") Далее
 </template>
 
 <script>
@@ -68,6 +72,16 @@ export default {
       }
 
       return result
+    },
+    isTherePreviousPage() {
+      return this.pageNumber < 1
+    },
+    isThereNextPage() {
+      return this.pageNumber === this.pageAmount - 1
+    },
+    generatePages() {
+      const pages = Array(this.pageAmount).fill(null).map((x, i) => i);
+      return pages.filter(page => page !== 0 && page !== this.pageAmount - 1 && page >= this.pageNumber - 1 && page <= this.pageNumber + 2)
     }
   },
   methods: {
@@ -92,6 +106,9 @@ export default {
     },
     authorsToString(authors) {
       return authors ? authors.join(', ') : ''
+    },
+    isPageActive(page) {
+      return this.pageNumber === page - 1
     }
   }
 }
@@ -192,6 +209,10 @@ export default {
         &:hover
           cursor default
           opacity .65
+
+    .dots
+      display flex
+      align-self flex-end
 
   @media $desktop
     .pagination
