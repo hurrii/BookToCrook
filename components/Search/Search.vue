@@ -88,6 +88,7 @@ export default {
       border-radius 7px
       padding 0 3rem 0 .5rem
       font-size 1.2rem
+      line-height normal // safari vert align fix
 
       &::placeholder
         transition color .2s ease
