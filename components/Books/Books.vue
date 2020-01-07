@@ -4,11 +4,12 @@
       div {{ category }}
       transition-group.row.books(name="list-fade-horizontal")
         .col-3.book(v-for="book in pagenatedData" :key="book.id")
-          nuxt-link(:to="{ path: '/book/' + book.id }" v-for="image, index in book.volumeInfo.imageLinks" :key="image.name" v-if="image && index === 'smallThumbnail'").cover
-            img.image.lazy(:src="image")
+          nuxt-link(:to="{ path: '/book/' + book.id }").cover
+            img.image.lazy(:src="book.volumeInfo.imageLinks.smallThumbnail")
           nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 47 ? 'popovered' : ''"
                     :data-full-title="book.volumeInfo.title").h2.title {{ contentShortener(book.volumeInfo.title) }}
           .author(v-html="contentShortener(authorsToString(book.volumeInfo.authors))")
+
     .pagination(v-if="pageAmount > 1" :key="'pagination'")
         button.btn.prev(@click="prevPage" :disabled="isTherePreviousPage" :class="{ disabled : isTherePreviousPage }") Назад
         button.btn.first(@click='pageNumber = 0' :class="{ active : pageNumber === 0}" v-html='1')
