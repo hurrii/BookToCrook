@@ -22,6 +22,10 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
+      console: {
+        type: Object,
+        default: console
+      },
       searchResults: {
         type: Array,
         default: []
@@ -65,7 +69,7 @@ export default {
         this.searchResults = []
         this.$refs.input.value = ''
         this.searchQuery = ''
-      }, 100);
+      }, 300);
     }
   }
 }
@@ -84,6 +88,7 @@ export default {
       border-radius 7px
       padding 0 3rem 0 .5rem
       font-size 1.2rem
+      line-height normal // safari vert align fix
 
       &::placeholder
         transition color .2s ease
