@@ -119,7 +119,7 @@ export default {
     border-radius: 9px
     display flex
     max-width: 21rem
-    height 50%
+    height 30rem
 
     img
       flex 1 1 100%
