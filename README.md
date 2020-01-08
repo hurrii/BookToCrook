@@ -1,29 +1,16 @@
 # BookToCrook
+**Book library app utilizing Google Books API** :orange_book:	
 
-> 
-
-## Build Setup
+## Установка
 
 ``` bash
-# install dependencies
-$ npm run install
+# установка зависимостей
+$ npm i
 
-# serve with hot reload at localhost:3000
+# локальный запуск (port 4444)
 $ npm run dev
 
-# build for production and launch server
+# сделать билд для прода и запустить сервер
 $ npm run build
 $ npm run start
-
-# generate static project
-$ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
-
-## TODO
-- Main page featuring complete list of books, pagination, and carousel showcasing bestsellers.
-- Book's page displaying a book's cover, short annotation, authors' name, and probably rating.
-- Search engine with partial match support
-- Filter by categories

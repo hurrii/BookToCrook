@@ -1,36 +1,53 @@
 <template lang="pug">
-  .content
     .category
-      h1 {{ this.$route.params.name }}
+      h1.title {{ defineCategoryName.title }}
+      Books(:category='this.$route.params.name')
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import Books from '~/components/Books/Books'
 
 export default {
+  components: {
+    Books
+  },
   data: () => {
     return {
     }
   },
   head() {
     return {
-      // title: `${this.bookData.title} - BookToCrook`
+      title: `${this.defineCategoryName.title} - BookToCrook`
     }
   },
   computed: {
-    ...mapState([
-      'pageData'
-    ])
+    ...mapGetters([
+      'getCategories'
+    ]),
+    defineCategoryName() {
+      return this.getCategories.filter(category => category.name === this.$route.params.name)[0]
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .content
-    margin 2rem 0
-    flex 1
-    padding 2rem
-    background $lightgray
-    border-radius $radius
-    box-shadow: 0 0 4px -1px rgba($black, 0.2)
+  .category
+    .title
+      display inline-block
+      position relative
+      margin-top 2rem
+      line-height 1.25
+
+      &::before
+        display block
+        content ''
+        position absolute
+        bottom .5rem
+        left 0
+        width 100%
+        height 15%
+        background $green
+        opacity .5
 </style>

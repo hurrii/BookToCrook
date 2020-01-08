@@ -1,7 +1,6 @@
 <template lang="pug">
   .wrapper
     section.content
-      div {{ category }}
       transition-group.row.books(name="list-fade-horizontal")
         .col-3.book(v-for="book in pagenatedData" :key="book.id")
           nuxt-link(:to="{ path: '/book/' + book.id }").cover
