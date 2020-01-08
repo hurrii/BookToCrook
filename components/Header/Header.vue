@@ -1,7 +1,7 @@
 <template lang="pug">
   header.header
     .content
-      nuxt-link(to='/').logo BookToCrook
+      nuxt-link(to='/').logo BookToCrook📙
       Search
 
 </template>
