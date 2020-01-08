@@ -2,13 +2,13 @@
   .content
     .book
       .row
-        .col-4
+        .col-3
           .image
             img(:src='bookData.imageLinks.thumbnail')
           .page-count.heading Количество страниц:&nbsp;
             span.normal {{ bookData.pageCount }}
 
-        .col-8
+        .col-9
           .info
             h1.title {{ bookData.title }}
             h2.authors(v-if='bookData.authors' v-html='bookData.authors.join(", ")')
@@ -118,7 +118,7 @@ export default {
   .image
     border-radius: 9px
     display flex
-    max-width: 25rem
+    max-width: 21rem
     height 50%
 
     img
