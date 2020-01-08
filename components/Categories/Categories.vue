@@ -71,8 +71,7 @@ export default {
       &:hover
         .image
           filter none
-          transform scale(1)
-          transition filter .3s ease, transform 7s
+          transition filter .3s ease
 
       .image
         position absolute
@@ -85,8 +84,7 @@ export default {
         background-size cover
         overflow hidden
         filter grayscale(.75)
-        transform scale(1.1)
-        transition filter .3s ease, transform 1.5s
+        transition filter .3s ease
         width 100%
         height 100%
 
