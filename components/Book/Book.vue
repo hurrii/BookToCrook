@@ -16,6 +16,7 @@
               span.normal {{  bookData.publisher }}
             .about.heading(v-if='bookData.description') О книге
               .normal {{ bookData.description }}
+            a.preview(v-if='isTherePreview' :href='bookData.previewLink' target='_blank') Читать отрывок
 
       .row.lower(v-if='moreFromAuthor.length > 0')
         .col-12
@@ -36,9 +37,15 @@ export default {
       bookDataPlaceholder: {
         title: '',
         authors: [],
-        imageLinks: [],
+        imageLinks: {
+          thumbnail: ''
+        },
         publisher: '',
-        description: ''
+        description: '',
+        readingModes: {
+          text: false,
+          image: false
+        }
       }
     }
   },
@@ -65,6 +72,9 @@ export default {
         return results.filter((item, index) => index > 3 ? null : item)
       }
       return []
+    },
+    isTherePreview() {
+      return this.bookData.readingModes.text || this.bookData.readingModes.image
     }
   }
 }
@@ -104,11 +114,12 @@ export default {
 
   .image
     border-radius: 9px
-
+    display flex
+    align-items center
     img
-      width 100%
-      max-width 25rem
-      height auto
+      max-width 100%
+      flex 0
+      align-self start
 
   .heading
     font-size 1.8rem
@@ -135,6 +146,12 @@ export default {
     font-size 2.1rem
     font-weight 700
     line-height 1.25
+
+  .preview
+    display block
+    margin-top 1rem
+    font-size 1.8rem
+    font-weight bold
 
   @media $tablet
     .row
