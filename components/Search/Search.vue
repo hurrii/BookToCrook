@@ -97,7 +97,7 @@ export default {
         color: transparent
 
     button
-      height 100%
+      height calc(100% + 1px)
       width 3rem
       border-radius 0px 7px 7px 0px
       position absolute
