@@ -39,6 +39,7 @@ export default {
       position relative
       margin-top 2rem
       line-height 1.25
+      font-size 3.5rem
 
       &::before
         display block
@@ -50,4 +51,9 @@ export default {
         height 15%
         background $green
         opacity .5
+
+  @media $mobile
+    .category
+      .title
+        font-size 2.2rem
 </style>

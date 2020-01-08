@@ -1,6 +1,6 @@
 <template lang="pug">
   .search
-    input(type='text' placeholder='Искать на BookToCrook' @input='filterPageData' @blur='clearResults' ref='input')
+    input(type='text' placeholder='Искать на BookToCrook' @input='filterPageData' @blur='clearResults' @keyup.esc='clearResults' @keyup.down='focusResult' ref='input')
     button
       i.icon
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 96 96">
@@ -9,9 +9,9 @@
           </g>
         </svg>
     .results(v-if='searchQuery.length > 2' ref='resultsDropdown')
-      .err(v-if='!isThereResults') Совпадений не найдено
-      .entry(v-for='result in searchResults' :key='result.id')
-        nuxt-link(:to="{ path: '/book/' + result.id }").link
+      .err(v-if='!isThereMatches') Совпадений не найдено
+      .entry(v-for='result, index in searchResults' :key='result.id')
+        nuxt-link(:to="{ path: '/book/' + result.id }" ref='link').link
           p(v-if='result.volumeInfo') {{ result.volumeInfo.title }}
 
 </template>
@@ -22,10 +22,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      console: {
-        type: Object,
-        default: console
-      },
+      resultsFocused: false,
       searchResults: {
         type: Array,
         default: []
@@ -38,34 +35,51 @@ export default {
   },
   computed: {
     ...mapState(['pageData']),
-    isThereResults() {
-      if (this.searchQuery.length > 2 && this.searchResults.length === 0) {
-        return false
-      }
-      return true
+    isThereMatches() {
+      return this.searchQuery.length > 2 && this.searchResults.length > 0
     }
+  },
+  mounted() {
+    this.resultsFocused = false
   },
   methods: {
     filterPageData(e) {
-      if (e.target.value) {
-        this.searchQuery = e.target.value
-      }
+      this.searchQuery = e.target.value ? e.target.value : this.searchQuery
 
       if (this.pageData) {
           if (e.target.value.length === 0) {
             this.searchResults = []
           } else if (e.target.value.length > 2) {
-            const result = Object.values(this.pageData).filter(book => book.volumeInfo.title.toLowerCase().includes(e.target.value.toLowerCase()))
+            const result = Object.values(this.pageData).filter(book => this.$route.params.id !== book.id && book.volumeInfo.title.toLowerCase().includes(e.target.value.toLowerCase()))
             this.searchResults = result
           }
       }
     },
     clearResults() {
-      setTimeout(() => {
-        this.searchResults = []
-        this.$refs.input.value = ''
-        this.searchQuery = ''
-      }, 300);
+      if (!this.resultsFocused) {
+        setTimeout(() => {
+          this.searchResults = []
+          if (this.$refs) {
+            this.$refs.input.value = ''
+          }
+          this.searchQuery = ''
+        }, 250);
+      }
+    },
+    focusResult() {
+      const reset = () => {
+        this.resultsFocused = false
+        this.clearResults()
+      }
+
+      if (this.$refs.link && this.$refs.link[0]) {
+        this.resultsFocused = true
+        this.$refs.link[0].$el.focus()
+        this.resultsFocused = false
+
+        this.$refs.link[0].$el.addEventListener('click', reset, { once: true })
+        this.$refs.link[0].$el.addEventListener('blur', reset, { once: true })
+      }
     }
   }
 }
@@ -76,6 +90,10 @@ export default {
     position relative
     margin-left auto
     height 3rem
+
+    .link
+      &:focus
+        color $green
 
     input
       width 20rem
