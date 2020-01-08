@@ -68,6 +68,7 @@ export default {
       text-align center
       overflow hidden
       border 1px solid rgba(#000, .25)
+      transform rotate(0.0001deg)
       &:hover
         .image
           filter none
