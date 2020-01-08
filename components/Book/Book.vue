@@ -16,6 +16,15 @@
               span.normal {{  bookData.publisher }}
             .about.heading(v-if='bookData.description') О книге
               .normal {{ bookData.description }}
+
+      .row.lower(v-if='moreFromAuthor.length > 0')
+        .col-12
+          .more-heading Еще от автора:
+          .row.more
+            nuxt-link(v-for='book of moreFromAuthor' :to='{ path: book.id }' :key='book.id').col-3.item
+              .cover
+                img(:src='book.volumeInfo.imageLinks.thumbnail')
+              .heading {{ book.volumeInfo.title }}
 </template>
 
 <script>
@@ -49,6 +58,13 @@ export default {
         return currentBook[0].volumeInfo
       }
       return this.bookDataPlaceholder;
+    },
+    moreFromAuthor() {
+      if (this.pageData) {
+        const results = Object.values(this.pageData).filter(book => JSON.stringify(book.volumeInfo.authors) === JSON.stringify(this.bookData.authors) && book.id !== this.$route.params.id)
+        return results.filter((item, index) => index > 3 ? null : item)
+      }
+      return []
     }
   }
 }
@@ -63,6 +79,9 @@ export default {
     .book
       opacity 1
 
+  .lower
+    margin-top 4rem
+
   .content
     margin 2rem 0
     flex 1
@@ -72,7 +91,7 @@ export default {
     box-shadow: 0 0 4px -1px rgba($black, 0.2)
 
   .title
-    color $green
+    font-size 3.5rem
     line-height 1.15
 
   .authors
@@ -105,12 +124,20 @@ export default {
       line-height 2.6rem
       margin-top .5rem
 
+  .more
+    margin-top 2rem
+
+    .cover
+      img
+        height 15rem
+
+  .more-heading
+    font-size 2.1rem
+    font-weight 700
+    line-height 1.25
+
   @media $tablet
     .row
-      // .col-3
-      // .col-9
-      //   max-width 49.99%
-      //   flex 0 0 49.99%
 
       .col-9
         order 1
