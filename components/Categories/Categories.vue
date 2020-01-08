@@ -1,13 +1,13 @@
 <template lang="pug">
   .categories
     .list
-      nuxt-link(v-for="category in categories" :to="{ path: `/category/${category.name}` }" :key='category.name').category
+      nuxt-link(v-for="category in getCategories" :to="{ path: `/category/${category.name}` }" :key='category.name').category
         .image(:style="{ backgroundImage: `url( ${require(`~/assets/img/categories/${category.name}.jpg`)} )` }")
         .heading {{ category.title }}
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   data: () => {
@@ -44,6 +44,9 @@ export default {
   computed: {
     ...mapState([
       'pageData'
+    ]),
+    ...mapGetters([
+      'getCategories'
     ])
   }
 }

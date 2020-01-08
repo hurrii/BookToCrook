@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -38,9 +38,6 @@ export default {
   },
   computed: {
     ...mapState(['pageData']),
-    ...mapMutations([
-      'saveSearchResults'
-    ]),
     isThereResults() {
       if (this.searchQuery.length > 2 && this.searchResults.length === 0) {
         return false
@@ -60,7 +57,6 @@ export default {
           } else if (e.target.value.length > 2) {
             const result = Object.values(this.pageData).filter(book => book.volumeInfo.title.toLowerCase().includes(e.target.value.toLowerCase()))
             this.searchResults = result
-            // this.saveSearchResults(result)
           }
       }
     },
