@@ -100,6 +100,9 @@ export default {
     border-radius $radius
     box-shadow: 0 0 4px -1px rgba($black, 0.2)
 
+  .info
+    min-height 50rem
+
   .title
     font-size 3.5rem
     line-height 1.15
@@ -115,11 +118,11 @@ export default {
   .image
     border-radius: 9px
     display flex
-    align-items center
+    max-width: 25rem
+    height 50%
+
     img
-      max-width 100%
-      flex 0
-      align-self start
+      flex 1 1 100%
 
   .heading
     font-size 1.8rem
@@ -148,7 +151,7 @@ export default {
     line-height 1.25
 
   .preview
-    display block
+    display inline-block
     margin-top 1rem
     font-size 1.8rem
     font-weight bold
@@ -161,6 +164,13 @@ export default {
       .col-3
         order 2
 
+  @media $mobile-tablet
+    .image
+      height auto
+      img
+        flex 0
+        object-fit contain
+
   @media $mobile
     .heading
       margin-top .5rem
@@ -170,4 +180,7 @@ export default {
 
     .publisher
       margin-top 2rem
+
+    .info
+      min-height auto
 </style>
