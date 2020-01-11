@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { hasAuthor, hasTitle, hasCategory } from 'static/js/book-helpers.js'
 import { mapState } from 'vuex'
+import { hasAuthor, hasTitle, hasCategory } from '~/plugins/book-helpers.js'
 
 export default {
   filters: {
