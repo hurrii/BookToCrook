@@ -1,6 +1,6 @@
 <template lang="pug">
     .category
-      h1.title {{ defineCategoryName.title }}
+      h1.title--35.title {{ defineCategoryName.title }}
       Books(:category='this.$route.params.name')
 </template>
 
@@ -26,7 +26,7 @@ export default {
       'getCategories'
     ]),
     defineCategoryName() {
-      return this.getCategories.filter(category => category.name === this.$route.params.name)[0]
+      return this.getCategories.find(category => category.name === this.$route.params.name)
     }
   }
 }
@@ -38,8 +38,6 @@ export default {
       display inline-block
       position relative
       margin-top 2rem
-      line-height 1.25
-      font-size 3.5rem
 
       &::before
         display block
