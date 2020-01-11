@@ -6,8 +6,8 @@
           nuxt-link(:to="{ path: '/book/' + book.id }").cover
             img.image.lazy(:src="book.volumeInfo.imageLinks.smallThumbnail")
           nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 47 ? 'popovered' : ''"
-                    :data-full-title="book.volumeInfo.title").h2.title {{ contentShortener(book.volumeInfo.title) }}
-          .author(v-html="contentShortener(authorsToString(book.volumeInfo.authors))")
+                    :data-full-title="book.volumeInfo.title").h2.title {{ book.volumeInfo.title | shorten }}
+          .author {{ book.volumeInfo.authors | arrayStringify | shorten }}
 
     .pagination(v-if="pageAmount > 1" :key="'pagination'")
         button.btn.prev(@click="prevPage" :disabled="isTherePreviousPage" :class="{ disabled : isTherePreviousPage }") Назад
@@ -20,9 +20,28 @@
 </template>
 
 <script>
+import { hasAuthor, hasTitle, hasCategory } from 'static/js/book-helpers.js'
 import { mapState } from 'vuex'
 
 export default {
+  filters: {
+    shorten: (content) => {
+      if (content.length > 47) {
+        let result = content.split('').filter((item, index) => {
+          if (index < 47) {
+            return item
+          }
+        });
+        result = result.join('')
+        return `${result}...`
+      }
+
+      return content
+    },
+    arrayStringify: (arr) => {
+      return arr ? arr.join(', ') : ''
+    }
+  },
   props: {
     data: {
       type: Object,
@@ -35,6 +54,10 @@ export default {
     category: {
       type: String,
       default: null
+    },
+    searchQuery: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -45,9 +68,9 @@ export default {
       'pageData'
     ]),
     filteredData() {
-      let result = {}
-      result = this.pageData ? Object.values(this.pageData).filter(book => book.volumeInfo.imageLinks) : result
-      result = this.pageData && this.category ? Object.values(this.pageData).filter(book => book.volumeInfo.infoLink.includes(this.category) && book.volumeInfo.imageLinks) : result
+      let result = this.pageData || {}
+      result = this.pageData && this.category ? Object.values(this.pageData).filter(book => hasCategory(book, this.category)) : result
+      result = this.pageData && this.searchQuery ? Object.values(this.pageData).filter(book => hasAuthor(book, this.searchQuery) || hasTitle(book, this.searchQuery)) : result
       return result;
     },
     pageAmount() {
@@ -85,27 +108,11 @@ export default {
     }
   },
   methods: {
-    contentShortener(content) {
-      if (content.length > 47) {
-        let result = content.split('').filter((item, index) => {
-          if (index < 47) {
-            return item
-          }
-        });
-        result = result.join('')
-        return `${result}...`
-      }
-
-      return content
-    },
     prevPage() {
         this.pageNumber--
     },
     nextPage() {
         this.pageNumber++
-    },
-    authorsToString(authors) {
-      return authors ? authors.join(', ') : ''
     },
     isPageActive(page) {
       return this.pageNumber === page - 1
@@ -153,7 +160,6 @@ export default {
       position relative
       margin-top 1rem
       font-size 1.6rem
-      line-height 1.25
       font-weight bold
       color $metal
       min-height 3rem

@@ -1,7 +1,8 @@
 <template lang="pug">
   .search
-    input(type='text' placeholder='Искать на BookToCrook' @input='filterPageData' @blur='clearResults' @keyup.esc='clearResults' @keyup.down='focusResult' ref='input')
-    button
+    input(type='text' placeholder='Искать на BookToCrook' @input='filterPageData' @blur='clearResults' @keyup.esc='clearResults'
+          @keyup.down='focusResult' @keyup.enter='submitSearch' ref='input')
+    button(:disabled='searchResults.length < 1' @click='submitSearch')
       i.icon
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 96 96">
           <g id="XMLID_2_">
@@ -12,11 +13,12 @@
       .err(v-if='!isThereMatches') Совпадений не найдено
       .entry(v-for='result, index in searchResults' :key='result.id')
         nuxt-link(:to="{ path: '/book/' + result.id }" ref='link').link
-          p(v-if='result.volumeInfo') {{ result.volumeInfo.title }}
+          p(v-if='result.volumeInfo') {{ `${result.volumeInfo.authors}. ${result.volumeInfo.title}` }}
 
 </template>
 
 <script>
+import { hasAuthor, hasTitle } from 'static/js/book-helpers'
 import { mapState } from 'vuex'
 
 export default {
@@ -44,13 +46,14 @@ export default {
   },
   methods: {
     filterPageData(e) {
-      this.searchQuery = e.target.value ? e.target.value : this.searchQuery
+      const inputValue = e.target.value.toLowerCase()
+      this.searchQuery = e.target.value ? inputValue : this.searchQuery
 
       if (this.pageData) {
-          if (e.target.value.length === 0) {
+          if (inputValue.length === 0) {
             this.searchResults = []
-          } else if (e.target.value.length > 2) {
-            const result = Object.values(this.pageData).filter(book => this.$route.params.id !== book.id && book.volumeInfo.title.toLowerCase().includes(e.target.value.toLowerCase()))
+          } else if (inputValue.length > 2) {
+            const result = Object.values(this.pageData).filter(book => this.$route.params.id !== book.id && (hasTitle(book, inputValue) || hasAuthor(book, inputValue)))
             this.searchResults = result
           }
       }
@@ -80,6 +83,14 @@ export default {
         this.$refs.link[0].$el.addEventListener('click', reset, { once: true })
         this.$refs.link[0].$el.addEventListener('blur', reset, { once: true })
       }
+    },
+    submitSearch() {
+      if (this.$refs.input.value && this.$refs.input.value.length > 2) {
+        this.clearResults()
+        this.$router.push({
+          path: '/search/' + this.$refs.input.value
+        })
+      }
     }
   }
 }
@@ -92,6 +103,7 @@ export default {
     height 3rem
 
     .link
+      display block
       &:focus
         color $green
 
@@ -145,7 +157,7 @@ export default {
 
       .entry
         .link
-          display block
+          width 100%
           margin-bottom 1rem
 
         .err
