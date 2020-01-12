@@ -43,25 +43,26 @@ export default {
           const requests = []
           const API = 'https://www.googleapis.com/books/v1/volumes?q=';
           const options = '&maxResults=40'
-          const key = '&key=AIzaSyA-X-gXjYDzE5ueWgpDluu_0I1DjC-KyVY'
+          const key = '&key=AIzaSyAwTjTf_nzeebfNVqpG1LUqqgMFvozuRo0'
 
           const paths = [
             `${API}subject:fiction&langRestrict=ru${options}${key}`,
             `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=41`,
             `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=81`,
-            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=121`,
-            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=161`,
-            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=201`,
-            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=241`,
-            // `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=281`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=121`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=161`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=201`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=241`,
+            `${API}subject:fiction&langRestrict=ru${options}${key}&startIndex=281`,
             `${API}subject:nonfiction${options}${key}`,
             `${API}subject:nonfiction${options}${key}&startIndex=41`,
             `${API}subject:nonfiction${options}${key}&startIndex=81`,
-            // `${API}subject:nonfiction${options}${key}&startIndex=121`,
+            `${API}subject:nonfiction${options}${key}&startIndex=121`,
             `${API}subject:business${options}${key}`,
             `${API}subject:comic+books${options}${key}`,
             `${API}subject:parents+and+kids${options}${key}`,
-            `${API}subject:parents+and+kids${options}${key}&startIndex=41`
+            `${API}subject:parents+and+kids${options}${key}&startIndex=41`,
+            `${API}subject:parents+and+kids${options}${key}&startIndex=81`
           ]
 
           paths.forEach(path => {
