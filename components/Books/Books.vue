@@ -4,10 +4,11 @@
       transition-group.row.books(name="list-fade-horizontal")
         .col-3.book(v-for="book in pagenatedData" :key="book.id")
           nuxt-link(:to="{ path: '/book/' + book.id }").cover
-            img.image.lazy(:src="book.volumeInfo.imageLinks.smallThumbnail")
-          nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 47 ? 'popovered' : ''"
-                    :data-full-title="book.volumeInfo.title").h2.title {{ book.volumeInfo.title | shorten }}
-          .author {{ book.volumeInfo.authors | arrayStringify | shorten }}
+            img.image(:src="book.volumeInfo.imageLinks.smallThumbnail")
+          .info
+            nuxt-link(:to="{ path: '/book/' + book.id }" :class="book.volumeInfo.title.length > 47 ? 'popovered' : ''"
+                      :data-full-title="book.volumeInfo.title").h2.title {{ book.volumeInfo.title | shorten }}
+            .author {{ book.volumeInfo.authors | arrayStringify | shorten }}
 
     .pagination(v-if="pageAmount > 1" :key="'pagination'")
         button.btn.prev(@click="prevPage" :disabled="isTherePreviousPage" :class="{ disabled : isTherePreviousPage }") Назад
@@ -156,13 +157,15 @@ export default {
       height 100%
       transition box-shadow .35s ease
 
+    .info
+      margin 1rem 0
+
     .title
       position relative
       margin-top 1rem
       font-size 1.6rem
       font-weight bold
       color $metal
-      min-height 3rem
       &.popovered
         &::before
           content attr(data-full-title)
@@ -191,7 +194,6 @@ export default {
       font-size 1.4rem
       line-height  2.4rem
       margin-top 1rem
-      min-height 4.5rem
 
   .pagination
     display flex
@@ -226,6 +228,10 @@ export default {
         &:hover
           background $green
           color white
+
+    .book
+      .info
+        min-height 12rem
 
   @media $tablet
     .book

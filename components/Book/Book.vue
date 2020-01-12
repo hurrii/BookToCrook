@@ -174,6 +174,7 @@ export default {
   @media $mobile
     .heading
       margin-top .5rem
+      font-size 1.4rem
 
     .title
       margin-top 2rem
@@ -183,4 +184,9 @@ export default {
 
     .info
       min-height auto
+
+    .item
+      margin-bottom 2rem
+      max-width 49.9%
+      flex 0 1 49.9%
 </style>

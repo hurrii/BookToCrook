@@ -2,6 +2,7 @@
   Main
     .wrapper.row
         .col-6
+          .image
             img(src="~/assets/img/404.png")
         .col-6.text
             h1 404.
@@ -20,15 +21,25 @@ export default {
 
 <style lang="stylus" scoped>
    .wrapper
-       margin-top 4rem
+      height 100%
 
-       h1
+      h1
         font-size 6.5rem
 
-       .text
-           text-align center
+      .text
+        display flex
+        justify-content center
+        align-items center
+        flex-flow column wrap
+        text-align center
+
+    @media $desktop
+      .col-6
+      .image
+        height inherit
 
         img
-            display block
-            max-width 100%
+          height 100%
+          object-fit contain
+
 </style>
